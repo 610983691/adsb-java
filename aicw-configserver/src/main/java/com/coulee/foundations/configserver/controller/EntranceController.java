@@ -1,11 +1,18 @@
 package com.coulee.foundations.configserver.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSONObject;
+import com.coulee.foundations.configserver.entity.Location;
 
 /**
  * Description: 页面入口控制器，主要做页面跳转<br>
@@ -57,4 +64,50 @@ public class EntranceController {
 		return htmlUrl;
 	}
 	
+	@RequestMapping("/locations")
+	@ResponseBody
+	public String loadLocationData(){
+		List<Location> result =  generateLocations();
+		return JSONObject.toJSONString(result);
+	}
+	
+	private static final int times=10;
+	
+	private List<Location> generateLocations(){
+		List<Location> result = new ArrayList<>(times);
+		Location begin = randomLocation(-180d,180d,-90d,90d);
+		Location end = randomLocation(-180d,180d,-90d,90d);
+		result.add(begin);
+		
+		/*計算中間的點*/
+		for (int i = 1; i < times-1; i++) {
+			Location lo = randomLocation(Double.valueOf(begin.getLon()),
+					Double.valueOf(end.getLon()),Double.valueOf(begin.getLat()),
+					Double.valueOf(end.getLat()));
+			result.add(lo);
+		}
+		result.add(end);
+		System.out.println(result);
+		return result;
+		
+		
+		
+	}
+	
+	private Location randomLocation(Double minlonRange,Double maxLonRange,Double minlatRange,Double maxlatRange){
+		Random ran = new Random();
+		double rangeLon = maxLonRange-minlonRange;
+		double rangeLat = maxlatRange-minlatRange;
+		double lon = ran.nextDouble()*rangeLon-rangeLon/2;
+		double lat = ran.nextDouble()*rangeLat-rangeLat/2;
+		Location location = new Location();
+		location.setLat(String.valueOf(lat));
+		location.setLon(String.valueOf(lon));
+		return location;
+	}
+	
+	public static void main(String[] a){
+		EntranceController con = new EntranceController();
+		con.generateLocations();
+	}
 }

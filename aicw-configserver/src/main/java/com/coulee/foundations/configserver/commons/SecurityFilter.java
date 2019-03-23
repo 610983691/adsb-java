@@ -47,6 +47,7 @@ public class SecurityFilter implements Filter {
 	public void init(FilterConfig filterConfig) throws ServletException {
 		whiteList.add("/");
 		whiteList.add("/login");
+		whiteList.add("/locations");
 		if (!StringUtils.isEmpty(whiteListStr)) {
 			String[] split = whiteListStr.split(",");
 			for (String s : split) {
