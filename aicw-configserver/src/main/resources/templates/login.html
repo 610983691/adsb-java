@@ -75,10 +75,10 @@
 				  console.log(datas);
 				  var points=[];
 				  for(var i =0;i<datas.length;i++){
-					  var point = {"lon":datas[i].lon,"lat":datas[i].lat};
-					  points.push(point);
+					  
+					  points.push(new BMap.Point(datas[i].lon,datas[i].lat));
 				  }
-				  debugger;
+				  console.log(points);
 					var polyline = new BMap.Polyline(points, {strokeColor:"blue", strokeWeight:6, strokeOpacity:0.5});  //定义折线
 					map.addOverlay(polyline);     //添加折线到地图上
 					
