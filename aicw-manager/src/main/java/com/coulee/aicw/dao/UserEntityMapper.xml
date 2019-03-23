@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coulee.aicw.dao.UserEntityMapper">
+  <resultMap id="BaseResultMap" type="com.coulee.aicw.entity.UserEntity">
+    <id column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_gender" jdbcType="VARCHAR" property="userGender" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="id_number" jdbcType="VARCHAR" property="idNumber" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="telphone" jdbcType="VARCHAR" property="telphone" />
+    <result column="login_password" jdbcType="VARCHAR" property="loginPassword" />
+    <result column="province_dic" jdbcType="VARCHAR" property="provinceDic" />
+    <result column="region_dic" jdbcType="VARCHAR" property="regionDic" />
+    <result column="valid_date" jdbcType="TIMESTAMP" property="validDate" />
+    <result column="invalid_date" jdbcType="TIMESTAMP" property="invalidDate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="user_status" jdbcType="VARCHAR" property="userStatus" />
+    <result column="is_admin" jdbcType="VARCHAR" property="isAdmin" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="is_revice_msg" jdbcType="VARCHAR" property="isReviceMsg" />
+    <result column="login_status" jdbcType="VARCHAR" property="loginStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_account, user_name, user_gender, nation, id_number, email, telphone, 
+    login_password, province_dic, region_dic, valid_date, invalid_date, remark, create_user, 
+    create_date, update_user, update_date, user_status, is_admin, uuid, is_revice_msg, 
+    login_status
+  </sql>
+  <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fw_users
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <select id="findByUserAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fw_users
+    where user_account = #{userAccount,jdbcType=VARCHAR}
+  </select>
+  <select id="findByUserTel" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fw_users
+    where telphone = #{tel,jdbcType=VARCHAR}
+  </select>
+  <delete id="delete" parameterType="java.lang.String">
+    delete from fw_users
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <update id="deleteByUserId" parameterType="java.lang.String">
+    update from fw_users set user_status = '3'
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <insert id="add" parameterType="com.coulee.aicw.entity.UserEntity">
+    <selectKey keyProperty="userId" order="BEFORE" resultType="java.lang.String">
+      SELECT uuid_generate_v4() as uuid
+    </selectKey>
+    insert into fw_users (user_id, user_account, user_name, 
+      user_gender, nation, id_number, 
+      email, telphone, login_password, 
+      province_dic, region_dic, valid_date, 
+      invalid_date, remark, create_user, 
+      create_date, update_user, update_date, 
+      user_status, is_admin, uuid, 
+      is_revice_msg, login_status)
+    values (#{userId,jdbcType=VARCHAR}, #{userAccount,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{userGender,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{telphone,jdbcType=VARCHAR}, #{loginPassword,jdbcType=VARCHAR}, 
+      #{provinceDic,jdbcType=VARCHAR}, #{regionDic,jdbcType=VARCHAR}, #{validDate,jdbcType=TIMESTAMP}, 
+      #{invalidDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{userStatus,jdbcType=VARCHAR}, #{isAdmin,jdbcType=VARCHAR}, #{uuid,jdbcType=VARCHAR}, 
+      #{isReviceMsg,jdbcType=VARCHAR}, #{loginStatus,jdbcType=VARCHAR})
+  </insert>
+  <update id="update" parameterType="com.coulee.aicw.entity.UserEntity">
+    update fw_users
+    <set>
+      <if test="userAccount != null">
+        user_account = #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userGender != null">
+        user_gender = #{userGender,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null">
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        id_number = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone != null">
+        telphone = #{telphone,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPassword != null">
+        login_password = #{loginPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceDic != null">
+        province_dic = #{provinceDic,jdbcType=VARCHAR},
+      </if>
+      <if test="regionDic != null">
+        region_dic = #{regionDic,jdbcType=VARCHAR},
+      </if>
+      <if test="validDate != null">
+        valid_date = #{validDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalidDate != null">
+        invalid_date = #{invalidDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userStatus != null">
+        user_status = #{userStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="isAdmin != null">
+        is_admin = #{isAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="uuid != null">
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isReviceMsg != null">
+        is_revice_msg = #{isReviceMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="loginStatus != null">
+        login_status = #{loginStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <select id="findByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fw_users
+    <where>
+      <if test="params != null">
+        <if test="params.userAccount != null and params.userAccount !=''">
+          and user_account = #{params.userAccount,jdbcType=VARCHAR}
+        </if>
+        <if test="params.userName != null and params.userName !=''">
+          and user_name = #{params.userName,jdbcType=VARCHAR}
+        </if>
+        <if test="params.userGender != null and params.userGender !=''">
+          and user_gender = #{params.userGender,jdbcType=VARCHAR}
+        </if>
+        <if test="params.nation != null and params.nation !=''">
+          and nation = #{params.nation,jdbcType=VARCHAR}
+        </if>
+        <if test="params.idNumber != null and params.idNumber !=''">
+          and id_number = #{params.idNumber,jdbcType=VARCHAR}
+        </if>
+        <if test="params.email != null and params.email !=''">
+          and email = #{params.email,jdbcType=VARCHAR}
+        </if>
+        <if test="params.telphone != null and params.telphone !=''">
+          and telphone = #{params.telphone,jdbcType=VARCHAR}
+        </if>
+        <if test="params.loginPassword != null and params.loginPassword !=''">
+          and login_password = #{params.loginPassword,jdbcType=VARCHAR}
+        </if>
+        <if test="params.provinceDic != null and params.provinceDic !=''">
+          and province_dic = #{params.provinceDic,jdbcType=VARCHAR}
+        </if>
+        <if test="params.regionDic != null and params.regionDic !=''">
+          and region_dic = #{params.regionDic,jdbcType=VARCHAR}
+        </if>
+        <if test="params.validDate != null">
+          and valid_date = #{params.validDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="params.invalidDate != null">
+          and invalid_date = #{params.invalidDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="params.remark != null and params.remark !=''">
+          and remark = #{params.remark,jdbcType=VARCHAR}
+        </if>
+        <if test="params.createUser != null and params.createUser !=''">
+          and create_user = #{params.createUser,jdbcType=VARCHAR}
+        </if>
+        <if test="params.createDate != null">
+          and create_date = #{params.createDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="params.updateUser != null and params.updateUser !=''">
+          and update_user = #{params.updateUser,jdbcType=VARCHAR}
+        </if>
+        <if test="params.updateDate != null">
+          and update_date = #{params.updateDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="params.userStatus != null and params.userStatus !=''">
+          and user_status = #{params.userStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="params.isAdmin != null and params.isAdmin !=''">
+          and is_admin = #{params.isAdmin,jdbcType=VARCHAR}
+        </if>
+        <if test="params.uuid != null and params.uuid !=''">
+          and uuid = #{params.uuid,jdbcType=VARCHAR}
+        </if>
+        <if test="params.isReviceMsg != null and params.isReviceMsg !=''">
+          and is_revice_msg = #{params.isReviceMsg,jdbcType=VARCHAR}
+        </if>
+        <if test="params.loginStatus != null and params.loginStatus !=''">
+          and login_status = #{params.loginStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="params.userId != null and params.userId !=''">
+          and user_id = #{params.userId,jdbcType=VARCHAR}
+        </if>
+      </if>
+    </where>
+    order by user_id desc
+  </select>
+  <select id="countByParams" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(*) from fw_users
+    <where>
+      <if test="params != null">
+        <if test="params.userAccount != null and params.userAccount !=''">
+          and user_account = #{params.userAccount,jdbcType=VARCHAR}
+        </if>
+        <if test="params.userName != null and params.userName !=''">
+          and user_name = #{params.userName,jdbcType=VARCHAR}
+        </if>
+        <if test="params.userGender != null and params.userGender !=''">
+          and user_gender = #{params.userGender,jdbcType=VARCHAR}
+        </if>
+        <if test="params.nation != null and params.nation !=''">
+          and nation = #{params.nation,jdbcType=VARCHAR}
+        </if>
+        <if test="params.idNumber != null and params.idNumber !=''">
+          and id_number = #{params.idNumber,jdbcType=VARCHAR}
+        </if>
+        <if test="params.email != null and params.email !=''">
+          and email = #{params.email,jdbcType=VARCHAR}
+        </if>
+        <if test="params.telphone != null and params.telphone !=''">
+          and telphone = #{params.telphone,jdbcType=VARCHAR}
+        </if>
+        <if test="params.loginPassword != null and params.loginPassword !=''">
+          and login_password = #{params.loginPassword,jdbcType=VARCHAR}
+        </if>
+        <if test="params.provinceDic != null and params.provinceDic !=''">
+          and province_dic = #{params.provinceDic,jdbcType=VARCHAR}
+        </if>
+        <if test="params.regionDic != null and params.regionDic !=''">
+          and region_dic = #{params.regionDic,jdbcType=VARCHAR}
+        </if>
+        <if test="params.validDate != null">
+          and valid_date = #{params.validDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="params.invalidDate != null">
+          and invalid_date = #{params.invalidDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="params.remark != null and params.remark !=''">
+          and remark = #{params.remark,jdbcType=VARCHAR}
+        </if>
+        <if test="params.createUser != null and params.createUser !=''">
+          and create_user = #{params.createUser,jdbcType=VARCHAR}
+        </if>
+        <if test="params.createDate != null">
+          and create_date = #{params.createDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="params.updateUser != null and params.updateUser !=''">
+          and update_user = #{params.updateUser,jdbcType=VARCHAR}
+        </if>
+        <if test="params.updateDate != null">
+          and update_date = #{params.updateDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="params.userStatus != null and params.userStatus !=''">
+          and user_status = #{params.userStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="params.isAdmin != null and params.isAdmin !=''">
+          and is_admin = #{params.isAdmin,jdbcType=VARCHAR}
+        </if>
+        <if test="params.uuid != null and params.uuid !=''">
+          and uuid = #{params.uuid,jdbcType=VARCHAR}
+        </if>
+        <if test="params.isReviceMsg != null and params.isReviceMsg !=''">
+          and is_revice_msg = #{params.isReviceMsg,jdbcType=VARCHAR}
+        </if>
+        <if test="params.loginStatus != null and params.loginStatus !=''">
+          and login_status = #{params.loginStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="params.userId != null and params.userId !=''">
+          and user_id = #{params.userId,jdbcType=VARCHAR}
+        </if>
+      </if>
+    </where>
+  </select>
+  <select id="findByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fw_users where user_id in 
+    <foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">
+      #{item}
+    </foreach>
+  </select>
+</mapper>

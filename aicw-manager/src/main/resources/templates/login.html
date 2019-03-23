@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>企业应用外防墙-登录</title>
+      <!--第三方CSS-->
+      <link href="javascripts/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+      <link href="javascripts/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet"/>
+ 
+      <!--工程内部css-->
+      <link rel='stylesheet' href='stylesheets/modules/login.css' />
+
+      <!--第三方js-->
+      <script type="text/javascript" src="javascripts/jquery-1.11.3.min.js"></script>
+      <script type="text/javascript" src="javascripts/bootstrap/dist/js/bootstrap.js"></script>
+      <script type="text/javascript" src="javascripts/layer/layer.js"></script>
+
+      <!--工程内部js-->
+      <script type="text/javascript" src="javascripts/modules/login.js"></script>
+  </head>
+  <body>
+
+  <div class="container">
+      <div class="row">
+          <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-5" style="top:-62px">
+              <div id="iosBlurBg">
+                  <div id="whiteBg"></div>
+              </div>
+              <div id="bottomEnter"></div>
+              <div id="bottomBlurBg"></div>
+              <!-- Login Form -->
+              <div class="loginForm">
+                  <div class="title">
+                      <p>LOGIN TO<br/><span>企业应用外防墙</span></p>
+                      <hr/>
+                      <hr class="short"/>
+                  </div>
+                  <form>
+                      <div class="col-3">
+                          <input id="username" class="effect-2" type="text" placeholder="用户名..."/>
+                          <span class="focus-border"></span>
+
+                          <input id="password" class="effect-2" type="password" placeholder="密码..."/>
+                          <span class="focus-border"></span>
+                      </div>
+
+                      <div class="forget">
+                          <!--<button class="btn btn-default btn-sm">FORGOT PASSWORD?</button>-->
+                      </div>
+
+                  </form>
+              </div>
+              <a href="#">
+                  <div class="enterButton" id="loginButton">
+                      <i class="fa fa-lock fa-2x text-white"></i><br/>
+                      <span class="enterText text-white">登录</span>
+                  </div>
+              </a>
+          </div>
+      </div>
+  </div>
+  </body>
+</html>

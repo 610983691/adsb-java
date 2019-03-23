@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	
+	<!--第三方CSS-->
+    <link href="/javascripts/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+    <link href="/javascripts/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet"/>
+    <link href="/stylesheets/theme.css" rel="stylesheet" />
+    <link href="/javascripts/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet" />
+    <link href="/javascripts/bootstrapvalidator/dist/css/bootstrapValidator.min.css" rel="stylesheet" />
+
+	<!--第三方js-->
+    <script type="text/javascript" src="/javascripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/javascripts/bootstrap/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/javascripts/layer/layer.js"></script>
+    <script src="/javascripts/bootstrapvalidator/dist/js/bootstrapValidator.min.js"></script>
+    
+    <!--工程内部js-->
+    <script type="text/javascript" src="/javascripts/commons/windows.js"></script>
+    <script type="text/javascript" src="/javascripts/modules/configitem/config-add-item.js"></script>
+    
+</head>
+<body>
+<form class="form-horizontal" role="form">
+	<div class="container">
+		<fieldset>
+			<legend></legend>
+			<div class="row form-group">
+				<label class="control-label col-sm-2">所属产品：</label>
+				<div class="col-sm-4">
+					<input type="hidden" name="productId"/>
+					<input class="form-control" name="productName" type="text" readonly="readonly" placeholder="" />
+				</div>
+				<label class="control-label col-sm-2">所属模块：</label>
+				<div class="col-sm-4">
+					<input type="hidden" name="moduleId"/>
+					<input class="form-control" name="moduleName" type="text" readonly="readonly" placeholder="" />
+				</div>
+			</div>
+			<div class="row form-group">
+				<label class="control-label col-sm-2" id="changeLabel">配置类别：</label>
+				<div class="col-sm-10" id="changeDiv">
+					<input class="form-control" name="configType" type="text" readonly="readonly" placeholder="" />
+				</div>
+			</div>
+			<div class="row form-group">
+				<table class="table">
+					<tr>
+						<td>
+							<div class="row form-group">
+								<label class="control-label col-sm-2"><b>配置项1</b></label>
+								<div class="col-sm-10">
+									<a href="#" onclick="addItem()"><i class="fa fa-plus-square-o pull-right" style="font-size: 25px" title="增加一项"></i></a>
+								</div>
+							</div>
+							<div class="row form-group">
+								<label class="control-label col-sm-2">配置项说明：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="itemDesc1" placeholder="" />
+								</div>
+								<label class="control-label col-sm-2">是否加密：</label>
+								<div class="col-sm-4">
+									<label class="radio-inline">
+										<input type="radio" name="1" value="1" onchange="isCryptChange(this)"/>是
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="1" value="0" checked="checked" onchange="isCryptChange(this)"/>否
+									</label>
+								</div>
+							</div>
+							<div class="row form-group">
+								<label class="control-label col-sm-2">配置项KEY：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="itemKey1"/>
+								</div>
+								<label class="control-label col-sm-2" style="padding-left: 0px;">配置项VALUE：</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="itemValue1"/>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</fieldset>
+	</div>
+</form>
+<div align="center" style="margin:0em 0em 1em 0em"><!-- button不能放form里，否则layer失效 -->
+	<button class="btn btn-success"><i class="fa fa-save"> 添加</i></button>
+    <button class="btn btn-info" style="margin-left:30px;"><i class="fa fa-undo"> 取消</i></button>
+</div>
+</body>
+</html>

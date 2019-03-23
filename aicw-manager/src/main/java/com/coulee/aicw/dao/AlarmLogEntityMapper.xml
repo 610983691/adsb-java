@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coulee.aicw.dao.AlarmLogEntityMapper">
+	<resultMap id="BaseResultMap" type="com.coulee.aicw.entity.AlarmLogEntity">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="mobile_number" jdbcType="VARCHAR" property="mobileNumber" />
+		<result column="mobile_province" jdbcType="VARCHAR" property="mobileProvince" />
+		<result column="mobile_city" jdbcType="VARCHAR" property="mobileCity" />
+		<result column="carrier" jdbcType="VARCHAR" property="carrier" />
+		<result column="recive_count" jdbcType="INTEGER" property="reciveCount" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+		<association column="alarmLogMsgMap_id" javaType="com.coulee.aicw.entity.AlarmLogMsgEntity" property="alarmLogMsg" resultMap="alarmLogMsgMap" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, mobile_number, mobile_province,mobile_city, carrier,recive_count, create_date, update_date
+	</sql>
+
+	<resultMap id="alarmLogMsgMap" type="com.coulee.aicw.entity.AlarmLogMsgEntity">
+		<id column="alarmLogMsgMap_id" jdbcType="VARCHAR" property="id" />
+		<result column="alarmLogMsgMap_recive_msg" jdbcType="VARCHAR" property="reciveMsg" />
+		<result column="alarmLogMsgMap_alarm_log_id" jdbcType="VARCHAR" property="alarmLogId" />
+		<result column="alarmLogMsgMap_receive_date" jdbcType="TIMESTAMP" property="receiveDate" />
+	</resultMap>
+	<sql id="alarmLogMsgDetailMap_column_list">
+		log.id, mobile_number, mobile_province,mobile_city, carrier, recive_count, create_date, update_date , logmsg.id as alarmLogMsgMap_id, recive_msg as
+		alarmLogMsgMap_recive_msg, alarm_log_id as
+		alarmLogMsgMap_alarm_log_id,receive_date as alarmLogMsgMap_receive_date
+	</sql>
+	<select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fw_alarm_log
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="findByTel" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fw_alarm_log
+		where mobile_number = #{telphone,jdbcType=VARCHAR}
+	</select>
+	<delete id="delete" parameterType="java.lang.String">
+		delete from fw_alarm_log
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="add" parameterType="com.coulee.aicw.entity.AlarmLogEntity">
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			SELECT uuid_generate_v4() as uuid
+		</selectKey>
+		insert into fw_alarm_log (id, mobile_number,
+		mobile_province,mobile_city, carrier, recive_count, create_date,
+		update_date)
+		values (#{id,jdbcType=VARCHAR},
+		#{mobileNumber,jdbcType=VARCHAR},
+		#{mobileProvince,jdbcType=VARCHAR},#{mobileCity,jdbcType=VARCHAR},#{carrier,jdbcType=VARCHAR}, #{reciveCount,jdbcType=INTEGER},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP})
+	</insert>
+	<update id="update" parameterType="com.coulee.aicw.entity.AlarmLogEntity">
+		update fw_alarm_log
+		<set>
+			<if test="mobileNumber != null">
+				mobile_number = #{mobileNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="mobileProvince != null">
+				mobile_province = #{mobileProvince,jdbcType=VARCHAR},
+			</if>
+			<if test="mobileCity != null">
+				mobile_city = #{mobileCity,jdbcType=VARCHAR},
+			</if>
+			<if test="carrier != null">
+				carrier = #{carrier,jdbcType=VARCHAR},
+			</if>
+			<if test="reciveCount != null">
+				recive_count = #{reciveCount,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="findByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fw_alarm_log
+		<where>
+			<if test="params != null">
+				<if test="params.mobileNumber != null and params.mobileNumber !=''">
+					and mobile_number = #{params.mobileNumber,jdbcType=VARCHAR}
+				</if>
+				<if test="params.mobileProvince != null and params.mobileProvince !=''">
+					and mobile_province = #{params.mobileProvince,jdbcType=VARCHAR}
+				</if>
+				<if test="params.mobileCity != null and params.mobileCity !=''">
+					and mobile_city = #{params.mobileCity,jdbcType=VARCHAR}
+				</if>
+				<if test="params.carrier != null and params.carrier !=''">
+					and carrier = #{params.carrier,jdbcType=VARCHAR}
+				</if>
+				<if test="params.reciveCount != null">
+					and recive_count = #{params.reciveCount,jdbcType=INTEGER}
+				</if>
+				<if test="params.beginTime != null">
+					and create_date <![CDATA[>= #{params.beginTime,jdbcType=TIMESTAMP}]]>
+				</if>
+				<if test="params.endTime != null">
+					and create_date <![CDATA[<= #{params.endTime,jdbcType=TIMESTAMP}]]>
+				</if>
+				<if test="params.id != null and params.id !=''">
+					and id = #{params.id,jdbcType=VARCHAR}
+				</if>
+			</if>
+		</where>
+		order by id desc
+	</select>
+	<select id="countByParams" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(*) from fw_alarm_log
+		<where>
+			<if test="params != null">
+				<if test="params.mobileNumber != null and params.mobileNumber !=''">
+					and mobile_number = #{params.mobileNumber,jdbcType=VARCHAR}
+				</if>
+				<if test="params.mobileProvince != null and params.mobileProvince !=''">
+					and mobile_province = #{params.mobileProvince,jdbcType=VARCHAR}
+				</if>
+				<if test="params.mobileCity != null and params.mobileCity !=''">
+					and mobile_city = #{params.mobileCity,jdbcType=VARCHAR}
+				</if>
+				<if test="params.carrier != null and params.carrier !=''">
+					and carrier = #{params.carrier,jdbcType=VARCHAR}
+				</if>
+				<if test="params.reciveCount != null">
+					and recive_count = #{params.reciveCount,jdbcType=INTEGER}
+				</if>
+				<if test="params.createDate != null">
+					and create_date = #{params.createDate,jdbcType=TIMESTAMP}
+				</if>
+				<if test="params.updateDate != null">
+					and update_date = #{params.updateDate,jdbcType=TIMESTAMP}
+				</if>
+				<if test="params.id != null and params.id !=''">
+					and id = #{params.id,jdbcType=VARCHAR}
+				</if>
+			</if>
+		</where>
+	</select>
+	<select id="findByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fw_alarm_log where id in
+		<foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">
+			#{item}
+		</foreach>
+	</select>
+
+
+	<resultMap id="statisticResult" type="com.coulee.aicw.entity.statistic.StatisticEntity">
+		<result column="mobile_number" jdbcType="VARCHAR" property="name" />
+		<result column="recive_count" jdbcType="INTEGER" property="value" />
+	</resultMap>
+	<select id="queryTop10Phone" parameterType="com.coulee.aicw.entity.statistic.StatisticEntity" resultMap="statisticResult">
+		select mobile_number, count(1) as recive_count
+		from fw_alarm_log log right join fw_alarm_log_msg logmsg on log.id = logmsg.alarm_log_id
+		<where>
+			<if test="beginTime != null">
+				and receive_date <![CDATA[>= #{beginTime,jdbcType=TIMESTAMP}]]>
+			</if>
+			<if test="endTime != null">
+				and receive_date <![CDATA[<= #{endTime,jdbcType=TIMESTAMP}]]>
+			</if>
+		</where>
+		group by mobile_number order by recive_count DESC,mobile_number  LIMIT 10 OFFSET 0
+	</select>
+
+
+	<select id="queryCountByPhoneNumber" parameterType="com.coulee.aicw.entity.statistic.StatisticEntity" resultMap="statisticResult">
+		select log.mobile_number as mobile_number, count(1) as recive_count
+		from fw_alarm_log log right join fw_alarm_log_msg logmsg on log.id = logmsg.alarm_log_id
+		<where>
+			<if test="beginTime != null">
+				and receive_date <![CDATA[>= #{beginTime,jdbcType=TIMESTAMP}]]>
+			</if>
+			<if test="endTime != null">
+				and receive_date <![CDATA[<= #{endTime,jdbcType=TIMESTAMP}]]>
+			</if>
+			<if test="mobileNumbers!= null">
+				and log.mobile_number in
+				<foreach close=")" collection="mobileNumbers" index="index" item="item" open="(" separator=",">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+		group by mobile_number order by mobile_number
+	</select>
+
+
+</mapper>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <!--工程内部js-->
+    <script type="text/javascript" src="javascripts/modules/index-edituser.js"></script>
+</head>
+<body>
+<div class="inner-content">
+	<div class="header">
+		<h1 class="page-title">帮助信息</h1>
+		<ul class="breadcrumb">
+			<li><a href="index.html">主页</a></li>
+			<li class="active">帮助</li>
+		</ul>
+	</div>
+	<div class="main-content">
+		<h3>整体说明：</h3>
+		<ul>
+		  <li>管理配置中心，为使用zookeeper形式管理spring-cloud应用的配置信息UI界面，可对存储于zookeeper上的配置信息进行增加、修改、删除、查询操作，不提供配置获取服务（配置信息获取由spring-cloud-starter-zookeeper-config承担）；</li>
+		  <li>该管理UI为独立模块，即cloud-configserver是一个独立的工程，包含了前端页面、后端处理服务，以及采用SQLite内置数据库的数据存储，最大化排除与其他模块的关联关系；</li>
+		  <li>针对每个产品的配置信息进行隔离，除具有超级管理员权限的用户外，其他用户仅能看见自己创建的数据和公共数据；</li>
+		  <li>配置信息除存储于zookeeper集群外，也存储于该模块的内置数据库内，防止zookeeper集群挂掉导致配置信息丢失，并提供将本地配置重新写入至zk集群内的功能；</li>
+		  <li>可通过“配置导入”功能将具有初始配置信息的SQLite数据库文件导入至zookeeper内，方便配置信息统一管理下发。</li>
+		</ul>
+		<h3>使用说明：</h3>
+		<ul>
+		  <li>在产品模块管理内定义产品信息、全局使用的加解密配置，以及产品包含的模块信息，并指定模块是否需继承产品级配置；</li>
+		  <li>在模板管理内定义通用的配置模板，如果定义的模板为内置类型，则其他用户对此模块也可见，否则仅用户自己可用；</li>
+		  <li>在配置项管理内针对产品或模块定义配置项信息，指定了继承产品级配置的模块可继承产品级别配置，也可针对继承的配置进行调整修改；</li>
+		  <li>在spring-cloud应用工程内使用配置，具体如下：</li>
+		  <ul>
+		  	<li>在bootstrap.properties配置文件内配置zookeeper连接信息，其中<b><font color="red">zk1-zk3</font></b>需在操作系统的hosts文件内配置zookeeper对应的IP地址或直接修改成zookeeper的IP地址，<b><font color="red">coulee/cloudconfig/</font></b>为zk根节点，需与本系统application.properties文件内配置值一致，<b><font color="red">cloud-demo</font></b>为第一步配置的产品标识</li>
+<pre>
+spring.cloud.zookeeper.connect-string=<b><font color="red">zk1:2181,zk2:2181,zk3:2181</font></b>
+spring.cloud.zookeeper.config.root=<b><font color="red">coulee/cloudconfig/cloud-demo</font></b>
+spring.cloud.zookeeper.config.enabled=true
+</pre>
+		  	<li>在application.properties配置文件内配置application名称，其中<b><font color="red">providerdemo</font></b>为第一步配置的模块标识</li>
+<pre>spring.application.name=<b><font color="red">providerdemo</font></b></pre>
+		  	<li>使用配置信息，分多种情况</li>
+		  	<p>一种是在application.properties配置文件内定义配置引用，如下，其中<b><font color="red">datasource.driver-class-name</font></b>为第三步配置的配置项key</p>
+<pre>spring.datasource.driver-class-name=<b><font color="red">${datasource.driver-class-name}</font></b></pre>
+			<p>另一种使用方式为在具体代码内引用，这样spring-cloud应用启动时会自动从zookeeper内取配置值并映射到driverClass字段上，其中<b><font color="red">datasource.driver-class-name</font></b>为第三步配置的配置项key</p>
+<pre>
+public class Test {
+        @Value("${<b><font color="red">datasource.driver-class-name</font></b>}")
+        private String driverClass;
+}
+</pre>
+			<p>如需要在配置值变化时spring-cloud应用侧自动更新，可在获取配置值的类上加入<b><font color="red">@RefreshScope</font></b>注解，则zookeeper上的配置信息变化都会自动更新到driverClass字段</p>
+<pre>
+<b><font color="red">@RefreshScope</font></b>
+public class Test {
+        @Value("${<b><font color="red">datasource.driver-class-name</font></b>}")
+        private String driverClass;
+}
+</pre>
+			<p>另外还可以将配置信息映射到整个实体类，具体可自行百度，不再赘述。</p>
+			<p>如配置项为加密方式，需自行在获取配置项的值后进行解密处理后再使用，如下，其中<b><font color="red">datasource.password</font></b>为第三步配置的配置项key</p>
+<pre>
+public class Test {
+
+    @Autowired
+    private CryptoTools cryptoTools;
+	
+    @Value("${<b><font color="red">datasource.password</font></b>}")
+    private String password;
+
+    public void test() {
+        String realPassword = this.cryptoTools.decode(this.password);
+    }
+}
+</pre>
+		  </ul>
+		</ul>
+	</div>
+</div>
+</body>
+</html>

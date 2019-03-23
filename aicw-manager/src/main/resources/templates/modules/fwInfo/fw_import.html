@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>防火墙管理</title>
+<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!--第三方CSS-->
+<link href="/javascripts/bootstrap/dist/css/bootstrap.css"
+	rel="stylesheet" />
+<link href="/javascripts/font-awesome-4.7.0/css/font-awesome.css"
+	rel="stylesheet" />
+<link href="/stylesheets/theme.css" rel="stylesheet" />
+<link href="/javascripts/bootstrap-table/dist/bootstrap-table.css"
+	rel="stylesheet" />
+<link href="/javascripts/bootstrap-select/bootstrap-select.min.css"
+	rel="stylesheet" />
+<link href="/javascripts/bootstrap-fileinput/css/fileinput.css"
+	rel="stylesheet" />
+<!--第三方js-->
+<script type="text/javascript" src="/javascripts/jquery-1.11.3.min.js"></script>
+<script type="text/javascript"
+	src="/javascripts/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="/javascripts/layer/layer.js"></script>
+<script type="text/javascript"
+	src="/javascripts/bootstrap-table/dist/bootstrap-table.js"></script>
+<script type="text/javascript"
+	src="/javascripts/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
+<script
+	src="/javascripts/bootstrapvalidator/dist/js/bootstrapValidator.min.js"></script>
+<script type="text/javascript" src="/javascripts/bootstrap-fileinput/js/fileinput.js"></script>
+<script type="text/javascript" src="/javascripts/bootstrap-fileinput/js/locales/zh.js"></script>
+<!--工程内部js-->
+<script type="text/javascript" src="/javascripts/commons/windows.js"></script>
+<script type="text/javascript"
+	src="/javascripts/bootstrap-select/bootstrap-select.min.js"></script>
+<script type="text/javascript"
+	src="/javascripts/modules/fwInfo/fwInfo-import.js"></script>
+
+</head>
+
+<body>
+	<form class="form-horizontal" role="form">
+		<div class="container">
+			<fieldset>
+				<legend></legend>
+				<div class="row form-group">
+					<div class="col-sm-4 btn-group">
+						<input name="exlFile" id="exlFile" class="file-loading"  data-show-showCancel="true" data-show-upload="true" data-show-caption="true"
+							type="file" />
+					</div>
+				</div>
+			</fieldset>
+		</div>
+	</form>
+	<div align="center" style="margin: 0em 0em 1em 0em">
+		<!-- button不能放form里，否则layer失效 -->
+		<button type="reset" class="btn btn-default"
+									style="margin-right: 30px;">
+									<i class="fa fa-undo fa-large"></i>重置
+		</button>
+		<button class="btn btn-info" style="margin-left: 30px;">
+			<i class="fa fa-undo"> 取消</i>
+		</button>
+	</div>
+</body>
+
+</html>

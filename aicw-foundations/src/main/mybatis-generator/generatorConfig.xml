@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+	<!-- 一个数据库一个context -->
+	<context id="MyBatisCodeGenerator_CLOUD" targetRuntime="MyBatis3">
+
+		<!-- 生成文件编码 -->
+		<property name="javaFileEncoding" value="UTF-8" />
+		
+		<!-- beginningDelimiter和endingDelimiter：指明数据库的用于标记数据库对象名的符号，比如ORACLE就是双引号&quot;，MYSQL默认是`反引号； -->
+	    <property name="beginningDelimiter" value="&quot;"/>
+	    <property name="endingDelimiter" value="&quot;"/>
+
+		<!-- 自定义插件 -->
+		<plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin><!-- DTO重写toString方法 -->
+		<plugin type="com.coulee.aicw.foundations.utils.mybatis.MyGeneratorPlugin">
+			<property name="generateServiceAndController" value="false"/><!-- 是否生成service、controller -->
+			<property name="targetProject" value="D:/work2014/4a/aicw/aicw-manager/src/main/java"/><!-- service、controller存放路径 -->
+            <property name="targetServicePackage" value="com.boco.security.pmss.datamaintain.service"/><!-- service接口包路径 -->
+            <property name="targetServiceImplPackage" value="com.boco.security.pmss.datamaintain.service.impl"/><!-- service接口实现类包路径 -->
+            <property name="targetControllerPackage" value="com.boco.security.pmss.datamaintain.controller"/><!-- controller包路径 -->
+		</plugin>
+
+		<!-- 注释 -->
+		<commentGenerator type="com.coulee.aicw.foundations.utils.mybatis.MyCommentGenerator">
+			<property name="suppressAllComments" value="false" /><!-- 是否取消注释 -->
+			<property name="suppressDate" value="true" /> <!-- 是否生成注释代时间戳 -->
+		</commentGenerator>
+
+		<!-- JDBC连接 -->
+		<jdbcConnection driverClass="org.postgresql.Driver"
+			connectionURL="jdbc:postgresql://192.168.1.16:5432/aicw_db" userId="postgres" password="1234567890">
+			<!-- 针对oracle数据库 -->
+            <property name="remarksReporting" value="true"></property>
+		</jdbcConnection>
+
+		<!-- 类型转换 -->
+		<javaTypeResolver>
+			<!-- 是否使用bigDecimal true：使用BigDecimal；false：默认, scale>0;length>18：使用BigDecimal; scale=0;length[10,18]：使用Long； scale=0;length[5,9]：使用Integer； scale=0;length<5：使用Short； -->
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- 生成DTO配置，需修改targetPackage和targetProject，targetProject为本工程相对路径或其他工程绝对路径 -->
+		<javaModelGenerator targetPackage="com.coulee.aicw.entity"
+			targetProject="E:/coulee-workspace/4a/aicw/aicw-manager/src/main/java">
+			<property name="enableSubPackages" value="false" />
+			<!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+			<property name="trimStrings" value="false" />
+			<property name="rootClass" value="com.coulee.aicw.foundations.entity.BaseEntity" />
+		</javaModelGenerator>
+
+		<!-- 生成MAPPER文件配置，需修改targetProject，targetProject为本工程相对路径或其他工程绝对路径 -->
+		<sqlMapGenerator targetPackage="com.coulee.aicw.dao" targetProject="E:/coulee-workspace/4a/aicw/aicw-manager/src/main/java">
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator>
+
+		<!-- 生成DAO接口配置，需修改targetPackage和targetProject，targetProject为本工程相对路径或其他工程绝对路径 -->
+		<javaClientGenerator targetPackage="com.coulee.aicw.dao"
+			targetProject="E:/coulee-workspace/4a/aicw/aicw-manager/src/main/java" type="XMLMAPPER">
+			<property name="enableSubPackages" value="false" />
+			<property name="rootInterface" value="com.coulee.aicw.foundations.dao.IBaseDao" />
+		</javaClientGenerator>
+
+		<!-- 表信息配置，需修改tableName和domainObjectName -->
+		<table tableName="fw_users" domainObjectName="UserEntity"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+			<!-- 指定主键以及主键生成策略，需修改主键列名及对应序列查询SQL -->
+			<generatedKey column="user_id" sqlStatement="SELECT uuid_generate_v4() as uuid" />
+		</table>
+		
+		<!-- 表信息配置，需修改tableName和domainObjectName -->
+		<table tableName="fw_alarm_log" domainObjectName="AlarmLogEntity"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+			<!-- 指定主键以及主键生成策略，需修改主键列名及对应序列查询SQL -->
+			<generatedKey column="id" sqlStatement="SELECT uuid_generate_v4() as uuid" />
+			<columnOverride column="recive_count" jdbcType="INTEGER" javaType="Integer" />
+		</table>
+		
+		<!-- 表信息配置，需修改tableName和domainObjectName -->
+		<table tableName="fw_application_manage" domainObjectName="ApplicationManageEntity"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+			<!-- 指定主键以及主键生成策略，需修改主键列名及对应序列查询SQL -->
+			<generatedKey column="id" sqlStatement="SELECT uuid_generate_v4() as uuid" />
+		</table>
+		
+		<!-- 表信息配置，需修改tableName和domainObjectName -->
+		<table tableName="fw_asset_info" domainObjectName="FirewallAssetEntity"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+			<!-- 指定主键以及主键生成策略，需修改主键列名及对应序列查询SQL -->
+			<generatedKey column="id" sqlStatement="SELECT uuid_generate_v4() as uuid" />
+			<columnOverride column="fw_encode" jdbcType="INTEGER" javaType="Integer" />
+		</table>
+		
+		<!-- 表信息配置，需修改tableName和domainObjectName -->
+		<table tableName="fw_control_log" domainObjectName="ControlLogEntity"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+			<!-- 指定主键以及主键生成策略，需修改主键列名及对应序列查询SQL -->
+			<generatedKey column="user_id" sqlStatement="SELECT uuid_generate_v4() as uuid" />
+		</table>
+		
+		<!-- 表信息配置，需修改tableName和domainObjectName -->
+		<table tableName="fw_dictionary" domainObjectName="DictionaryEntity"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+			<!-- 指定主键以及主键生成策略，需修改主键列名及对应序列查询SQL -->
+			<generatedKey column="id" sqlStatement="SELECT uuid_generate_v4() as uuid" />
+		</table>
+		
+		<!-- 表信息配置，需修改tableName和domainObjectName -->
+		<table tableName="fw_dictionary_type" domainObjectName="DictionaryTypeEntity"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+			<!-- 指定主键以及主键生成策略，需修改主键列名及对应序列查询SQL -->
+			<generatedKey column="id" sqlStatement="SELECT uuid_generate_v4() as uuid" />
+		</table>
+		
+	</context>
+</generatorConfiguration>

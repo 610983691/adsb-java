@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coulee.foundations.configserver.dao.ConfigItemsMapper">
+  <resultMap id="BaseResultMap" type="com.coulee.foundations.configserver.entity.ConfigItems">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CONFIG_MAIN_ID" jdbcType="INTEGER" property="configMainId" />
+    <result column="ITEM_DESC" jdbcType="VARCHAR" property="itemDesc" />
+    <result column="ITEM_IS_CRYPT" jdbcType="INTEGER" property="itemIsCrypt" />
+    <result column="ITEM_KEY" jdbcType="VARCHAR" property="itemKey" />
+    <result column="ITEM_VALUE" jdbcType="VARCHAR" property="itemValue" />
+    <result column="ITEM_SEQ" jdbcType="INTEGER" property="itemSeq" />
+    <result column="IS_EXTENDS" jdbcType="INTEGER" property="isExtends" />
+    <result column="PRODUCT_MARK" jdbcType="VARCHAR" property="productMark" />
+    <result column="MODULE_MARK" jdbcType="VARCHAR" property="moduleMark" />
+    <result column="EXTENDS_ID" jdbcType="INTEGER" property="extendsId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CONFIG_MAIN_ID, ITEM_DESC, ITEM_IS_CRYPT, ITEM_KEY, ITEM_VALUE, ITEM_SEQ, IS_EXTENDS, EXTENDS_ID
+  </sql>
+  <select id="findById" parameterType="Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PT_CONFIG_ITEMS
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="delete" parameterType="Integer">
+    delete from PT_CONFIG_ITEMS
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="add" parameterType="com.coulee.foundations.configserver.entity.ConfigItems">
+    insert into PT_CONFIG_ITEMS (ID, CONFIG_MAIN_ID, ITEM_DESC, 
+      ITEM_IS_CRYPT, ITEM_KEY, ITEM_VALUE, 
+      ITEM_SEQ, IS_EXTENDS, EXTENDS_ID)
+    values (#{id,jdbcType=INTEGER}, #{configMainId,jdbcType=INTEGER}, #{itemDesc,jdbcType=VARCHAR}, 
+      #{itemIsCrypt,jdbcType=INTEGER}, #{itemKey,jdbcType=VARCHAR}, #{itemValue,jdbcType=VARCHAR}, 
+      #{itemSeq,jdbcType=INTEGER}, #{isExtends,jdbcType=INTEGER}, #{extendsId,jdbcType=INTEGER})
+  </insert>
+  <update id="update" parameterType="com.coulee.foundations.configserver.entity.ConfigItems">
+    update PT_CONFIG_ITEMS
+    <set>
+      <if test="configMainId != null">
+        CONFIG_MAIN_ID = #{configMainId,jdbcType=INTEGER},
+      </if>
+      <if test="itemDesc != null">
+        ITEM_DESC = #{itemDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="itemIsCrypt != null">
+        ITEM_IS_CRYPT = #{itemIsCrypt,jdbcType=INTEGER},
+      </if>
+      <if test="itemKey != null">
+        ITEM_KEY = #{itemKey,jdbcType=VARCHAR},
+      </if>
+      <if test="itemValue != null">
+        ITEM_VALUE = #{itemValue,jdbcType=VARCHAR},
+      </if>
+      <if test="itemSeq != null">
+        ITEM_SEQ = #{itemSeq,jdbcType=INTEGER},
+      </if>
+      <if test="isExtends != null">
+        IS_EXTENDS = #{isExtends,jdbcType=INTEGER},
+      </if>
+      <if test="extendsId != null">
+        EXTENDS_ID = #{extendsId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PT_CONFIG_ITEMS
+    <where>
+      <if test="params != null">
+        <if test="params.configMainId != null">
+          and CONFIG_MAIN_ID = #{params.configMainId,jdbcType=INTEGER}
+        </if>
+        <if test="params.itemDesc != null and params.itemDesc !=''">
+          and ITEM_DESC = #{params.itemDesc,jdbcType=VARCHAR}
+        </if>
+        <if test="params.itemIsCrypt != null">
+          and ITEM_IS_CRYPT = #{params.itemIsCrypt,jdbcType=INTEGER}
+        </if>
+        <if test="params.itemKey != null and params.itemKey !=''">
+          and ITEM_KEY = #{params.itemKey,jdbcType=VARCHAR}
+        </if>
+        <if test="params.itemValue != null and params.itemValue !=''">
+          and ITEM_VALUE = #{params.itemValue,jdbcType=VARCHAR}
+        </if>
+        <if test="params.itemSeq != null">
+          and ITEM_SEQ = #{params.itemSeq,jdbcType=INTEGER}
+        </if>
+        <if test="params.isExtends != null">
+          and IS_EXTENDS = #{params.isExtends,jdbcType=INTEGER}
+        </if>
+        <if test="params.extendsId != null">
+          and EXTENDS_ID = #{params.extendsId,jdbcType=INTEGER}
+        </if>
+        <if test="params.id != null">
+          and ID = #{params.id,jdbcType=INTEGER}
+        </if>
+      </if>
+    </where>
+    ORDER BY ITEM_SEQ
+  </select>
+  
+  <select id="findConfigItems" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+		A.*, C.PRODUCT_MARK, D.MODULE_MARK
+	FROM
+		PT_CONFIG_ITEMS A
+	LEFT JOIN PT_CONFIG_MAIN B ON A.CONFIG_MAIN_ID = B.ID
+	LEFT JOIN PT_CONFIG_PRODUCT C ON C.ID = B.PRODUCT_ID
+	LEFT JOIN PT_CONFIG_MODULES D ON D.ID = B.MODULE_ID
+    <where>
+      <if test="params != null">
+        <if test="params.productId != null">
+          and B.PRODUCT_ID = #{params.productId,jdbcType=INTEGER}
+        </if>
+        <if test="params.moduleId != null">
+          and B.MODULE_ID = #{params.moduleId,jdbcType=INTEGER}
+        </if>
+        <if test="params.configMainId != null">
+          and A.CONFIG_MAIN_ID = #{params.configMainId,jdbcType=INTEGER}
+        </if>
+        <if test="params.extendsId != null">
+          and A.EXTENDS_ID = #{params.extendsId,jdbcType=INTEGER}
+        </if>
+        <if test="params.isExtends != null">
+          and A.IS_EXTENDS = #{params.isExtends,jdbcType=INTEGER}
+        </if>
+      </if>
+    </where>
+  </select>
+  
+  <delete id="deleteByProductOrMoudle" parameterType="java.util.Map">
+  	<if test="params != null">
+	  	DELETE
+		FROM
+			PT_CONFIG_ITEMS
+		WHERE
+			CONFIG_MAIN_ID IN (
+				SELECT
+					ID
+				FROM
+					PT_CONFIG_MAIN
+				<where>
+			        <if test="params.productId != null">
+			          and PRODUCT_ID = #{params.productId,jdbcType=INTEGER}
+			        </if>
+			        <if test="params.moduleId != null">
+			          and MODULE_ID = #{params.moduleId,jdbcType=INTEGER}
+			        </if>
+			    </where>	
+			)
+  	</if>
+  </delete>
+  
+  <update id="updateExtendsItemsByParentIds" parameterType="java.util.Map">
+  	<if test="params.ids != null">
+	  	update PT_CONFIG_ITEMS
+	    <set>
+	      <if test="params.isExtends != null">
+	        IS_EXTENDS = #{params.isExtends,jdbcType=INTEGER},
+	      </if>
+	      <if test="params.extendsId != null">
+	        EXTENDS_ID = #{params.extendsId,jdbcType=INTEGER},
+	      </if>
+	    </set>
+	    where EXTENDS_ID IN
+	    <foreach item="item" index="index" collection="params.ids" open="(" separator="," close=")">
+			#{item}
+	    </foreach>
+  	</if>
+  </update>
+  
+  <select id="findMaxSeqByMainId" parameterType="Integer" resultType="Integer">
+    SELECT MAX(ITEM_SEQ) + 1 FROM PT_CONFIG_ITEMS WHERE CONFIG_MAIN_ID = #{configMainId,jdbcType=INTEGER}
+  </select>
+</mapper>

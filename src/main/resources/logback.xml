@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false" scanPeriod="60 seconds" debug="false">
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-4level] %logger{50} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 日志文件保存规则，以天为单位，最大为100MB文件，历史文件进行gz压缩，最多保存30天历史 -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${user.dir}/logs/{0}.%d{yyyy-MM-dd}.%i.log.gz</FileNamePattern>   
+            <MaxHistory>30</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            	<maxFileSize>100MB</maxFileSize> 
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-4level] %logger{50} - %msg%n</pattern>
+		</encoder>
+	</appender>  
+
+	<logger name="com.coulee.aicw" level="DEBUG"/>
+	<logger name="org" level="INFO"/>
+
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>
+	
+</configuration>

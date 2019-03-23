@@ -1,0 +1,8 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.coulee.aicw.foundations.config.mybatis.MyBatisConfig,\
+com.coulee.aicw.foundations.config.DruidDataSourceConfig,\
+com.coulee.aicw.foundations.config.CorsConfig,\
+com.coulee.aicw.foundations.config.exception.ExceptionHandlerAdvice,\
+com.coulee.aicw.foundations.config.CryptoTools,\
+com.coulee.aicw.foundations.utils.common.JWTUtils,\
+com.coulee.aicw.foundations.config.apidoc.Swagger2Config

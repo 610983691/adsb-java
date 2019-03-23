@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coulee.aicw.dao.FirewallAssetEntityMapper">
+	<resultMap id="BaseResultMap" type="com.coulee.aicw.entity.FirewallAssetEntity">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="fw_code" jdbcType="VARCHAR" property="fwCode" />
+		<result column="fw_name" jdbcType="VARCHAR" property="fwName" />
+		<result column="fw_alias" jdbcType="VARCHAR" property="fwAlias" />
+		<result column="fw_type" jdbcType="VARCHAR" property="fwType" />
+		<result column="ip_type" jdbcType="VARCHAR" property="ipType" />
+		<result column="fw_ip" jdbcType="VARCHAR" property="fwIp" />
+		<result column="fw_ipv6" jdbcType="VARCHAR" property="fwIpv6" />
+		<result column="fw_protocol" jdbcType="VARCHAR" property="fwProtocol" />
+		<result column="encode" jdbcType="VARCHAR" property="encode" />
+		<result column="admin_acount" jdbcType="VARCHAR" property="adminAcount" />
+		<result column="admin_pwd" jdbcType="VARCHAR" property="adminPwd" />
+		<result column="admin_prompt" jdbcType="VARCHAR" property="adminPrompt" />
+		<result column="root_pwd" jdbcType="VARCHAR" property="rootPwd" />
+		<result column="root_prompt" jdbcType="VARCHAR" property="rootPrompt" />
+		<result column="uuid" jdbcType="VARCHAR" property="uuid" />
+		<result column="create_user" jdbcType="VARCHAR" property="createUser" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+		<result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+		<result column="fw_port" jdbcType="INTEGER" property="fwPort" />
+		<result column="fw_status" jdbcType="VARCHAR" property="fwStatus" />
+		<result column="test_login_status" jdbcType="VARCHAR" property="testLoginStatus" />
+		<result column="test_login_date" jdbcType="TIMESTAMP" property="testLoginDate" />
+		<result column="test_login_log" jdbcType="VARCHAR" property="testLoginLog" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, fw_code, fw_name, fw_alias, fw_type, ip_type, fw_ip, fw_protocol, encode, admin_acount,
+		admin_pwd, admin_prompt, root_pwd, root_prompt, uuid, create_user, create_date, update_user,
+		update_date, fw_port, fw_status,fw_ipv6,test_login_status,test_login_date,test_login_log
+	</sql>
+	<select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fw_asset_info
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="delete" parameterType="java.lang.String">
+		delete from fw_asset_info
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="add" parameterType="com.coulee.aicw.entity.FirewallAssetEntity">
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			SELECT uuid_generate_v4() as uuid
+		</selectKey>
+		insert into fw_asset_info (id, fw_code, fw_name,
+		fw_alias, fw_type, ip_type,
+		fw_ip, fw_ipv6,fw_protocol, encode,
+		admin_acount, admin_pwd, admin_prompt,
+		root_pwd, root_prompt, uuid,
+		create_user, create_date, update_user,
+		update_date, fw_port, fw_status,test_login_status,test_login_date,test_login_log
+		)
+		values (#{id,jdbcType=VARCHAR}, #{fwCode,jdbcType=VARCHAR}, #{fwName,jdbcType=VARCHAR},
+		#{fwAlias,jdbcType=VARCHAR}, #{fwType,jdbcType=VARCHAR}, #{ipType,jdbcType=VARCHAR},
+		#{fwIp,jdbcType=VARCHAR},#{fwIpv6,jdbcType=VARCHAR}, #{fwProtocol,jdbcType=VARCHAR}, #{encode,jdbcType=VARCHAR},
+		#{adminAcount,jdbcType=VARCHAR}, #{adminPwd,jdbcType=VARCHAR}, #{adminPrompt,jdbcType=VARCHAR},
+		#{rootPwd,jdbcType=VARCHAR}, #{rootPrompt,jdbcType=VARCHAR}, #{uuid,jdbcType=VARCHAR},
+		#{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR},
+		#{updateDate,jdbcType=TIMESTAMP}, #{fwPort,jdbcType=INTEGER}, #{fwStatus,jdbcType=VARCHAR},
+		#{testLoginStatus,jdbcType=VARCHAR}, #{testLoginDate,jdbcType=TIMESTAMP}, #{testLoginLog,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="update" parameterType="com.coulee.aicw.entity.FirewallAssetEntity">
+		update fw_asset_info
+		<set>
+			<if test="fwCode != null">
+				fw_code = #{fwCode,jdbcType=VARCHAR},
+			</if>
+			<if test="fwName != null">
+				fw_name = #{fwName,jdbcType=VARCHAR},
+			</if>
+			<if test="fwAlias != null">
+				fw_alias = #{fwAlias,jdbcType=VARCHAR},
+			</if>
+			<if test="fwType != null">
+				fw_type = #{fwType,jdbcType=VARCHAR},
+			</if>
+			<if test="ipType != null">
+				ip_type = #{ipType,jdbcType=VARCHAR},
+			</if>
+			<if test="fwIp != null">
+				fw_ip = #{fwIp,jdbcType=VARCHAR},
+			</if>
+			<if test="fwIpv6 != null">
+				fw_ipv6 = #{fwIpv6,jdbcType=VARCHAR},
+			</if>
+			<if test="fwProtocol != null">
+				fw_protocol = #{fwProtocol,jdbcType=VARCHAR},
+			</if>
+			<if test="encode != null">
+				encode = #{encode,jdbcType=VARCHAR},
+			</if>
+			<if test="adminAcount != null">
+				admin_acount = #{adminAcount,jdbcType=VARCHAR},
+			</if>
+			<if test="adminPwd != null">
+				admin_pwd = #{adminPwd,jdbcType=VARCHAR},
+			</if>
+			<if test="adminPrompt != null">
+				admin_prompt = #{adminPrompt,jdbcType=VARCHAR},
+			</if>
+			<if test="rootPwd != null">
+				root_pwd = #{rootPwd,jdbcType=VARCHAR},
+			</if>
+			<if test="rootPrompt != null">
+				root_prompt = #{rootPrompt,jdbcType=VARCHAR},
+			</if>
+			<if test="uuid != null">
+				uuid = #{uuid,jdbcType=VARCHAR},
+			</if>
+			<if test="createUser != null">
+				create_user = #{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				update_user = #{updateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fwPort != null">
+				fw_port = #{fwPort,jdbcType=INTEGER},
+			</if>
+			<if test="fwStatus != null">
+				fw_status = #{fwStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="testLoginStatus != null">
+				test_login_status = #{testLoginStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="testLoginLog != null">
+				test_login_log = #{testLoginLog,jdbcType=VARCHAR},
+			</if>
+			<if test="testLoginDate != null">
+				test_login_date = #{testLoginDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="findByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fw_asset_info
+		<where>
+			<if test="params != null">
+				<if test="params.fwCode != null and params.fwCode !=''">
+					and fw_code = #{params.fwCode,jdbcType=VARCHAR}
+				</if>
+				<if test="params.fwName != null and params.fwName !=''">
+					and fw_name = #{params.fwName,jdbcType=VARCHAR}
+				</if>
+				<if test="params.fwNameLike != null and params.fwNameLike !=''">
+					and fw_name like '%'|| #{params.fwNameLike,jdbcType=VARCHAR} || '%'
+				</if>
+				<if test="params.fwAlias != null and params.fwAlias !=''">
+					and fw_alias = #{params.fwAlias,jdbcType=VARCHAR}
+				</if>
+				<if test="params.fwType != null and params.fwType !=''">
+					and fw_type = #{params.fwType,jdbcType=VARCHAR}
+				</if>
+				<if test="params.fwTypeLike != null and params.fwTypeLike !=''">
+					and fw_type like '%'|| #{params.fwTypeLike,jdbcType=VARCHAR}|| '%'
+				</if>
+				<if test="params.ipType != null and params.ipType !=''">
+					and ip_type = #{params.ipType,jdbcType=VARCHAR}
+				</if>
+
+				<if test="params.fwIp != null and params.fwIp !=''">
+					and fw_ip = #{params.fwIp,jdbcType=VARCHAR}
+				</if>
+				<if test="params.fwIpv6 != null and params.fwIpv6 !=''">
+					and fw_ipv6 = #{params.fwIpv6,jdbcType=VARCHAR}
+				</if>
+				<if test="params.fwIpMul  != null">
+					and fw_ip IN
+					<foreach item="item" index="index" collection="params.fwIpMul" open="(" separator="," close=")">
+						'${item}'
+					</foreach>
+				</if>
+				<if test="params.fwIpLike != null and params.fwIpLike !=''">
+					and fw_ip like '%'|| #{params.fwIpLike,jdbcType=VARCHAR}|| '%'
+				</if>
+				<if test="params.fwProtocol != null and params.fwProtocol !=''">
+					and fw_protocol = #{params.fwProtocol,jdbcType=VARCHAR}
+				</if>
+				<if test="params.encode != null and params.encode !=''">
+					and encode = #{params.encode,jdbcType=VARCHAR}
+				</if>
+				<if test="params.adminAcount != null and params.adminAcount !=''">
+					and admin_acount = #{params.adminAcount,jdbcType=VARCHAR}
+				</if>
+				<if test="params.adminPwd != null and params.adminPwd !=''">
+					and admin_pwd = #{params.adminPwd,jdbcType=VARCHAR}
+				</if>
+				<if test="params.adminPrompt != null and params.adminPrompt !=''">
+					and admin_prompt = #{params.adminPrompt,jdbcType=VARCHAR}
+				</if>
+				<if test="params.rootPwd != null and params.rootPwd !=''">
+					and root_pwd = #{params.rootPwd,jdbcType=VARCHAR}
+				</if>
+				<if test="params.rootPrompt != null and params.rootPrompt !=''">
+					and root_prompt = #{params.rootPrompt,jdbcType=VARCHAR}
+				</if>
+				<if test="params.uuid != null and params.uuid !=''">
+					and uuid = #{params.uuid,jdbcType=VARCHAR}
+				</if>
+				<if test="params.createUser != null and params.createUser !=''">
+					and create_user = #{params.createUser,jdbcType=VARCHAR}
+				</if>
+				<if test="params.createDate != null">
+					and create_date = #{params.createDate,jdbcType=TIMESTAMP}
+				</if>
+				<if test="params.updateUser != null and params.updateUser !=''">
+					and update_user = #{params.updateUser,jdbcType=VARCHAR}
+				</if>
+				<if test="params.updateDate != null">
+					and update_date = #{params.updateDate,jdbcType=TIMESTAMP}
+				</if>
+				<if test="params.fwPort != null">
+					and fw_port = #{params.fwPort,jdbcType=INTEGER}
+				</if>
+				<if test="params.fwStatus != null and params.fwStatus !=''">
+					and fw_status = #{params.fwStatus,jdbcType=VARCHAR}
+				</if>
+				<if test="params.testLoginStatus != null and params.testLoginStatus !=''">
+					and test_login_status = #{params.testLoginStatus,jdbcType=VARCHAR}
+				</if>
+				<if test="params.id != null and params.id !=''">
+					and id = #{params.id,jdbcType=VARCHAR}
+				</if>
+			</if>
+		</where>
+		order by id desc
+	</select>
+	<select id="countByParams" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(*) from fw_asset_info
+		<where>
+			<if test="params != null">
+				<if test="params.fwCode != null and params.fwCode !=''">
+					and fw_code = #{params.fwCode,jdbcType=VARCHAR}
+				</if>
+				<if test="params.fwName != null and params.fwName !=''">
+					and fw_name = #{params.fwName,jdbcType=VARCHAR}
+				</if>
+				<if test="params.fwNameLike != null and params.fwNameLike !=''">
+					and fw_name like '%'|| #{params.fwNameLike,jdbcType=VARCHAR} || '%'
+				</if>
+				<if test="params.fwAlias != null and params.fwAlias !=''">
+					and fw_alias = #{params.fwAlias,jdbcType=VARCHAR}
+				</if>
+				<if test="params.fwType != null and params.fwType !=''">
+					and fw_type = #{params.fwType,jdbcType=VARCHAR}
+				</if>
+				<if test="params.fwTypeLike != null and params.fwTypeLike !=''">
+					and fw_type like '%'|| #{params.fwTypeLike,jdbcType=VARCHAR}|| '%'
+				</if>
+				<if test="params.ipType != null and params.ipType !=''">
+					and ip_type = #{params.ipType,jdbcType=VARCHAR}
+				</if>
+
+				<if test="params.fwIp != null and params.fwIp !=''">
+					and fw_ip = #{params.fwIp,jdbcType=VARCHAR}
+				</if>
+				<if test="params.fwIpv6 != null and params.fwIpv6 !=''">
+					and fw_ipv6 = #{params.fwIpv6,jdbcType=VARCHAR}
+				</if>
+				<if test="params.fwIpMul  != null">
+					and fw_ip IN
+					<foreach item="item" index="index" collection="params.fwIpMul" open="(" separator="," close=")">
+						'${item}'
+					</foreach>
+				</if>
+				<if test="params.fwIpLike != null and params.fwIpLike !=''">
+					and fw_ip like '%'|| #{params.fwIpLike,jdbcType=VARCHAR}|| '%'
+				</if>
+				<if test="params.fwProtocol != null and params.fwProtocol !=''">
+					and fw_protocol = #{params.fwProtocol,jdbcType=VARCHAR}
+				</if>
+				<if test="params.encode != null and params.encode !=''">
+					and encode = #{params.encode,jdbcType=VARCHAR}
+				</if>
+				<if test="params.adminAcount != null and params.adminAcount !=''">
+					and admin_acount = #{params.adminAcount,jdbcType=VARCHAR}
+				</if>
+				<if test="params.adminPwd != null and params.adminPwd !=''">
+					and admin_pwd = #{params.adminPwd,jdbcType=VARCHAR}
+				</if>
+				<if test="params.adminPrompt != null and params.adminPrompt !=''">
+					and admin_prompt = #{params.adminPrompt,jdbcType=VARCHAR}
+				</if>
+				<if test="params.rootPwd != null and params.rootPwd !=''">
+					and root_pwd = #{params.rootPwd,jdbcType=VARCHAR}
+				</if>
+				<if test="params.rootPrompt != null and params.rootPrompt !=''">
+					and root_prompt = #{params.rootPrompt,jdbcType=VARCHAR}
+				</if>
+				<if test="params.uuid != null and params.uuid !=''">
+					and uuid = #{params.uuid,jdbcType=VARCHAR}
+				</if>
+				<if test="params.createUser != null and params.createUser !=''">
+					and create_user = #{params.createUser,jdbcType=VARCHAR}
+				</if>
+				<if test="params.createDate != null">
+					and create_date = #{params.createDate,jdbcType=TIMESTAMP}
+				</if>
+				<if test="params.updateUser != null and params.updateUser !=''">
+					and update_user = #{params.updateUser,jdbcType=VARCHAR}
+				</if>
+				<if test="params.updateDate != null">
+					and update_date = #{params.updateDate,jdbcType=TIMESTAMP}
+				</if>
+				<if test="params.fwPort != null">
+					and fw_port = #{params.fwPort,jdbcType=INTEGER}
+				</if>
+				<if test="params.fwStatus != null and params.fwStatus !=''">
+					and fw_status = #{params.fwStatus,jdbcType=VARCHAR}
+				</if>
+				<if test="params.testLoginStatus != null and params.testLoginStatus !=''">
+					and test_login_status = #{params.testLoginStatus,jdbcType=VARCHAR}
+				</if>
+				<if test="params.id != null and params.id !=''">
+					and id = #{params.id,jdbcType=VARCHAR}
+				</if>
+			</if>
+		</where>
+	</select>
+	<select id="findByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fw_asset_info where id in
+		<foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">
+			#{item}
+		</foreach>
+	</select>
+
+
+	<resultMap id="statusCountResultMap" type="com.coulee.aicw.entity.statistic.StatisticEntity">
+		<result column="test_login_status" jdbcType="VARCHAR" property="name" />
+		<result column="status_count" jdbcType="VARCHAR" property="value" />
+
+	</resultMap>
+	<select id="queryTestStatusCount" resultMap="statusCountResultMap">
+		select test_login_status ,count(1) as status_count from fw_asset_info group by test_login_status
+	</select>
+
+</mapper>

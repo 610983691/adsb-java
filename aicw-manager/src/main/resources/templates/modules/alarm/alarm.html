@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<!--工程内部js-->
+<script type="text/javascript" src="/javascripts/commons/windows.js"></script>
+<script type="text/javascript" src="/javascripts/commons/dictionary.js"></script>
+<script type="text/javascript" src="javascripts/modules/alarm/alarm.js"></script>
+</head>
+<body>
+	<div class="inner-content">
+		<div class="header" style="padding: 0em 0em 0em 0em; margin: 0em 0em 0em 0em">
+			<h1 class="page-title">策略预警管理</h1>
+			<ul class="breadcrumb">
+				<li>
+					<a href="index.html">主页</a>
+				</li>
+				<li>
+					<a href="#">策略预警管理</a>
+				</li>
+				<li class="active">预警列表</li>
+			</ul>
+		</div>
+		<div class="main-content">
+			<div class="row">
+				<form class="form-inline" role="form">
+					<div class="form-group">
+						<div class="btn-group" role="group" aria-label="...">
+							<button type="button" id="month1" class="btn btn-default btn-sm">最近一月</button>
+							<button type="button" id="month3" class="btn btn-default btn-sm">最近三月</button>
+							<button type="button" id="month6" class="btn btn-default btn-sm">最近半年</button>
+							<button type="button" id="month12" class="btn btn-default btn-sm">最近一年</button>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">时间：</label>
+						<input class="form-control" type="text" readonly="readonly" name="beginTime" id="validDate_datetimepicker" data-date-format="yyyy-mm-dd hh:ii:ss" />
+					</div>
+					<div class="form-group">
+						<span>-</span>
+						<input class="form-control" type="text" readonly="readonly" name="endTime" id="invalidDate_datetimepicker" data-date-format="yyyy-mm-dd hh:ii:ss" />
+					</div>
+					<div class="form-group">
+						<label class="control-label">电话号码：</label>
+						<input type="text" class="form-control" id="mobileNumber" name="mobileNumber" placeholder="请输入电话号码" />
+					</div>
+					<div class="form-group">
+						<label class="control-label">归属地：</label>
+						<input type="text" class="form-control" id="mobileInfo" name="mobileInfo" placeholder="请输入号码归属地" />
+					</div>
+					<button type="button" id="searchBtn" class="btn btn-default">查询</button>
+				</form>
+			</div>
+			<div class="row">
+				<table id="tb_alarm" style='table-layout:fixed;'></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

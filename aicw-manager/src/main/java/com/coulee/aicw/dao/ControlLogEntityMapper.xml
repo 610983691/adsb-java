@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coulee.aicw.dao.ControlLogEntityMapper">
+	<resultMap id="BaseResultMap" type="com.coulee.aicw.entity.ControlLogEntity">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="fw_ip" jdbcType="VARCHAR" property="fwIp" />
+		<result column="fw_name" jdbcType="VARCHAR" property="fwName" />
+		<result column="send_order" jdbcType="VARCHAR" property="sendOrder" />
+		<result column="mobile_msg" jdbcType="VARCHAR" property="mobileMsg" />
+		<result column="apply_user_id" jdbcType="VARCHAR" property="applyUserId" />
+		<result column="apply_mobile_number" jdbcType="VARCHAR" property="applyMobileNumber" />
+		<result column="approve_user_id" jdbcType="VARCHAR" property="approveUserId" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="valid_time" jdbcType="TIMESTAMP" property="validTime" />
+		<result column="invalid_time" jdbcType="TIMESTAMP" property="invalidTime" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="sms_number" jdbcType="VARCHAR" property="smsnumber" />
+		<result column="approve_msg" jdbcType="VARCHAR" property="approveMsg" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, fw_ip, fw_name, send_order, mobile_msg, apply_user_id,
+		apply_mobile_number, approve_user_id,
+		status, valid_time, invalid_time,
+		remark,approve_msg,sms_number
+	</sql>
+	<select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fw_control_log
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="findBySmsNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fw_control_log
+		where sms_number = #{smsnumber,jdbcType=VARCHAR}
+	</select>
+	<delete id="delete" parameterType="java.lang.String">
+		delete from fw_control_log
+		where id =
+		#{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="add" parameterType="com.coulee.aicw.entity.ControlLogEntity">
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			SELECT uuid_generate_v4() as uuid
+		</selectKey>
+		insert into fw_control_log (id, fw_ip, fw_name,
+		send_order, mobile_msg, apply_user_id,
+		apply_mobile_number,
+		approve_user_id, status,
+		valid_time,
+		invalid_time,
+		remark,approve_msg,sms_number
+		)
+		values (#{id,jdbcType=VARCHAR},
+		#{fwIp,jdbcType=VARCHAR},
+		#{fwName,jdbcType=VARCHAR},
+		#{sendOrder,jdbcType=VARCHAR},
+		#{mobileMsg,jdbcType=VARCHAR},
+		#{applyUserId,jdbcType=VARCHAR},
+		#{applyMobileNumber,jdbcType=VARCHAR},
+		#{approveUserId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+		#{validTime,jdbcType=TIMESTAMP}, #{invalidTime,jdbcType=TIMESTAMP},
+		#{remark,jdbcType=VARCHAR},
+		#{smsnumber,jdbcType=VARCHAR},
+		#{approveMsg,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="update" parameterType="com.coulee.aicw.entity.ControlLogEntity">
+		update fw_control_log
+		<set>
+			<if test="fwIp != null">
+				fw_ip = #{fwIp,jdbcType=VARCHAR},
+			</if>
+			<if test="fwName != null">
+				fw_name = #{fwName,jdbcType=VARCHAR},
+			</if>
+			<if test="sendOrder != null">
+				send_order = #{sendOrder,jdbcType=VARCHAR},
+			</if>
+			<if test="mobileMsg != null">
+				mobile_msg = #{mobileMsg,jdbcType=VARCHAR},
+			</if>
+			<if test="applyUserId != null">
+				apply_user_id = #{applyUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="applyMobileNumber != null">
+				apply_mobile_number =
+				#{applyMobileNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="approveUserId != null">
+				approve_user_id = #{approveUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="validTime != null">
+				valid_time = #{validTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="invalidTime != null">
+				invalid_time = #{invalidTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="smsnumber != null">
+				sms_number = #{smsnumber,jdbcType=VARCHAR},
+			</if>
+			<if test="approveMsg != null">
+				approve_msg = #{approveMsg,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="findByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fw_control_log
+		<where>
+			<if test="params != null">
+				<if test="params.fwIp != null and params.fwIp !=''">
+					and fw_ip = #{params.fwIp,jdbcType=VARCHAR}
+				</if>
+				<if test="params.fwName != null and params.fwName !=''">
+					and fw_name = #{params.fwName,jdbcType=VARCHAR}
+				</if>
+				<if test="params.sendOrder != null and params.sendOrder !=''">
+					and send_order = #{params.sendOrder,jdbcType=VARCHAR}
+				</if>
+				<if test="params.mobileMsg != null and params.mobileMsg !=''">
+					and mobile_msg = #{params.mobileMsg,jdbcType=VARCHAR}
+				</if>
+				<if test="params.applyUserId != null and params.applyUserId !=''">
+					and apply_user_id =
+					#{params.applyUserId,jdbcType=VARCHAR}
+				</if>
+				<if test="params.applyMobileNumber != null and params.applyMobileNumber !=''">
+					and apply_mobile_number =
+					#{params.applyMobileNumber,jdbcType=VARCHAR}
+				</if>
+				<if test="params.approveUserId != null and params.approveUserId !=''">
+					and approve_user_id = #{params.approveUserId,jdbcType=VARCHAR}
+				</if>
+				<if test="params.status != null and params.status !=''">
+					and status = #{params.status,jdbcType=VARCHAR}
+				</if>
+				<if test="params.validTime != null">
+					and valid_time = #{params.validTime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="params.invalidTime != null">
+					and invalid_time =
+					#{params.invalidTime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="params.remark != null and params.remark !=''">
+					and remark = #{params.remark,jdbcType=VARCHAR}
+				</if>
+				<if test="params.id != null and params.id !=''">
+					and id = #{params.id,jdbcType=VARCHAR}
+				</if>
+				<if test="params.smsnumber != null and params.smsnumber !=''">
+					and sms_number = #{params.smsnumber,jdbcType=VARCHAR}
+				</if>
+				<if test="params.approveMsg != null and params.approveMsg !=''">
+					and approve_msg = #{params.approveMsg,jdbcType=VARCHAR}
+				</if>
+				<if test="params.beginTime != null">
+					and valid_time <![CDATA[>= #{params.beginTime,jdbcType=TIMESTAMP}]]>
+				</if>
+				<if test="params.endTime != null">
+					and valid_time <![CDATA[<= #{params.endTime,jdbcType=TIMESTAMP}]]>
+				</if>
+			</if>
+		</where>
+		order by id desc
+	</select>
+	<select id="countByParams" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(*) from fw_control_log
+		<where>
+			<if test="params != null">
+				<if test="params.fwIp != null and params.fwIp !=''">
+					and fw_ip = #{params.fwIp,jdbcType=VARCHAR}
+				</if>
+				<if test="params.fwName != null and params.fwName !=''">
+					and fw_name = #{params.fwName,jdbcType=VARCHAR}
+				</if>
+				<if test="params.sendOrder != null and params.sendOrder !=''">
+					and send_order = #{params.sendOrder,jdbcType=VARCHAR}
+				</if>
+				<if test="params.mobileMsg != null and params.mobileMsg !=''">
+					and mobile_msg = #{params.mobileMsg,jdbcType=VARCHAR}
+				</if>
+				<if test="params.applyUserId != null and params.applyUserId !=''">
+					and apply_user_id =
+					#{params.applyUserId,jdbcType=VARCHAR}
+				</if>
+				<if test="params.applyMobileNumber != null and params.applyMobileNumber !=''">
+					and apply_mobile_number =
+					#{params.applyMobileNumber,jdbcType=VARCHAR}
+				</if>
+				<if test="params.approveUserId != null and params.approveUserId !=''">
+					and approve_user_id = #{params.approveUserId,jdbcType=VARCHAR}
+				</if>
+				<if test="params.status != null and params.status !=''">
+					and status = #{params.status,jdbcType=VARCHAR}
+				</if>
+				<if test="params.validTime != null">
+					and valid_time = #{params.validTime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="params.invalidTime != null">
+					and invalid_time =
+					#{params.invalidTime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="params.remark != null and params.remark !=''">
+					and remark = #{params.remark,jdbcType=VARCHAR}
+				</if>
+				<if test="params.id != null and params.id !=''">
+					and id = #{params.id,jdbcType=VARCHAR}
+				</if>
+				<if test="params.smsnumber != null and params.smsnumber !=''">
+					and sms_number = #{params.smsnumber,jdbcType=VARCHAR}
+				</if>
+				<if test="params.approveMsg != null and params.approveMsg !=''">
+					and approve_msg = #{params.approveMsg,jdbcType=VARCHAR}
+				</if>
+			</if>
+		</where>
+	</select>
+	<select id="findByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fw_control_log where id in
+		<foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">
+			#{item}
+		</foreach>
+	</select>
+
+
+	<resultMap id="statisticResult" type="com.coulee.aicw.entity.statistic.StatisticEntity">
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="total" jdbcType="INTEGER" property="value" />
+	</resultMap>
+	<select id="statisticByStatus" parameterType="com.coulee.aicw.entity.ControlLogEntity" resultMap="statisticResult">
+		SELECT STATUS as name, COUNT(1) as total FROM fw_control_log
+		<where>
+			<if test="fwIp != null and fwIp !=''">
+				and fw_ip = #{fwIp,jdbcType=VARCHAR}
+			</if>
+			<if test="beginTime != null">
+				and valid_time <![CDATA[>= #{beginTime,jdbcType=TIMESTAMP}]]>
+			</if>
+			<if test="endTime != null">
+				and valid_time <![CDATA[<= #{endTime,jdbcType=TIMESTAMP}]]>
+			</if>
+		</where>
+		GROUP BY STATUS
+	</select>
+	<select id="statisticByIP" parameterType="com.coulee.aicw.entity.ControlLogEntity" resultMap="statisticResult">
+		SELECT fw_ip as name, COUNT(1) as total FROM fw_control_log
+		<where>
+			<if test="status != null and status !=''">
+				and status = #{status,jdbcType=VARCHAR}
+			</if>
+			<if test="beginTime != null">
+				and valid_time <![CDATA[>= #{beginTime,jdbcType=TIMESTAMP}]]>
+			</if>
+			<if test="endTime != null">
+				and valid_time <![CDATA[<= #{endTime,jdbcType=TIMESTAMP}]]>
+			</if>
+		</where>
+		GROUP BY fw_ip
+	</select>
+
+
+	<select id="queryLatest10ControlLogs" parameterType="com.coulee.aicw.entity.ControlLogEntity" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM fw_control_log
+		<where>
+			<if test="status != null and status !=''">
+				and status = #{status,jdbcType=VARCHAR}
+			</if>
+		</where>
+		order by valid_time DESC LIMIT 5 OFFSET 0
+	</select>
+
+
+
+
+</mapper>

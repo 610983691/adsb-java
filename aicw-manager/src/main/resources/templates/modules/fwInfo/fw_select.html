@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+
+<!--第三方CSS-->
+<link href="/javascripts/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<link href="/javascripts/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
+<link href="/stylesheets/theme.css" rel="stylesheet" />
+<link href="/javascripts/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet" />
+<link href="/javascripts/bootstrapvalidator/dist/css/bootstrapValidator.min.css" rel="stylesheet" />
+<link href="/javascripts/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+
+<!--第三方js-->
+<script type="text/javascript" src="/javascripts/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/javascripts/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="/javascripts/bootstrap-table/dist/bootstrap-table.js"></script>
+<script type="text/javascript" src="/javascripts/layer/layer.js"></script>
+<script src="/javascripts/bootstrapvalidator/dist/js/bootstrapValidator.min.js"></script>
+<script type="text/javascript" src="/javascripts/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/javascripts/bootstrap-select/bootstrap-select.min.js"></script>
+
+<!--工程内部js-->
+<script type="text/javascript" src="/javascripts/commons/windows.js"></script>
+<script type="text/javascript" src="/javascripts/modules/fwInfo/fwInfo-select.js"></script>
+</head>
+<body>
+	<div class="panel panel-default">
+		<div class="panel-heading">查询条件</div>
+		<div class="panel-body">
+			<form id="formSearch" class="form-horizontal">
+				<table class="table table-bordered">
+					<tbody>
+
+						<div class="row form-group">
+							<label class="control-label col-sm-2" for="txt_search_fwName">防火墙名称</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="txt_search_fwName" />
+							</div>
+							<label class="control-label col-sm-2" for="txt_search_fwType">防火墙类型</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="txt_search_fwType" />
+							</div>
+						</div>
+						<div class="row form-group">
+							<label class="control-label col-sm-2" for="txt_search_fwIp">防火墙IPV4</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="txt_search_fwIp" />
+							</div>
+							<label class="control-label col-sm-2" for="txt_search_fwStatus">防火墙状态</label>
+							<div class="col-sm-4">
+								<select class="selectpicker show-tick form-control"
+									id="txt_search_fwStatus" data-live-search="true">
+								</select>
+							</div>
+						</div>
+
+					</tbody>
+				</table>
+			</form>
+		</div>
+	</div>
+	<div class="main-content">
+		<div id="toolbar" class="btn-group">
+			<button type="button" id="btn_query" class="btn btn-default">
+				<i class="fa fa-search fa-large"></i>查询
+			</button>
+			<button type="reset" class="btn btn-default"
+				style="margin-right: 30px;">
+				<i class="fa fa-undo fa-large"></i>重置
+			</button>
+		</div>
+		<table id="tb_fwSelect"></table>
+	</div>
+	<div align="center" style="margin: 0em 0em 1em 0em">
+		<!-- button不能放form里，否则layer失效 -->
+		<button id="okbtn" class="btn btn-warning">
+			<i class="fa fa-back">确认</i>
+		</button>
+		<button class="btn btn-info" style="margin-left: 30px;">
+			<i class="fa fa-undo">取消</i>
+		</button>
+	</div>
+</body>
+</html>

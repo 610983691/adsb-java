@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<script src="/javascripts/echarts/echarts.min.js"></script>
+<!--工程内部js-->
+<script type="text/javascript" src="javascripts/modules/log/controlLog.js"></script>
+<script type="text/javascript" src="javascripts/modules/log/draw.js"></script>
+</head>
+<body>
+	<div class="inner-content">
+		<div class="header" style="padding: 0em 0em 0em 0em; margin: 0em 0em 0em 0em">
+			<h1 class="page-title">策略日志管理</h1>
+			<ul class="breadcrumb">
+				<li>
+					<a href="index.html">主页</a>
+				</li>
+				<li>
+					<a href="#">策略日志管理</a>
+				</li>
+				<li class="active">策略日志管理</li>
+			</ul>
+		</div>
+		<div class="main-content">
+			<div class="row">
+				<div class="col-md-6">
+					<div id="logStastic1" style="width: 600px; height: 400px;"></div>
+				</div>
+				<div class="col-md-6">
+					<div id="logStastic2" style="width: 600px; height: 400px;"></div>
+				</div>
+			</div>
+			<div class="row">
+				<form class="form-inline" role="form">
+					<div class="form-group">
+						<div class="btn-group" role="group" aria-label="...">
+							<button type="button" id="month1" class="btn btn-default btn-sm">最近一月</button>
+							<button type="button" id="month3" class="btn btn-default btn-sm">最近三月</button>
+							<button type="button" id="month6" class="btn btn-default btn-sm">最近半年</button>
+							<button type="button" id="month12" class="btn btn-default btn-sm">最近一年</button>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">时间：</label>
+						<input class="form-control" type="text" readonly="readonly" name="beginTime" id="validDate_datetimepicker" data-date-format="yyyy-mm-dd hh:ii:ss" />
+					</div>
+					<div class="form-group">
+						<span>-</span>
+						<input class="form-control" type="text" readonly="readonly" name="endTime" id="invalidDate_datetimepicker" data-date-format="yyyy-mm-dd hh:ii:ss" />
+					</div>
+					<div class="form-group">
+						<label class="control-label">IP：</label>
+						<input type="text" class="form-control" id="fwIp" name="fwIp" placeholder="请输入IP" />
+					</div>
+					<div class="form-group">
+						<label class="control-label">状态：</label>
+						<select id="status" name="status">
+							<option value="">全部</option>
+							<option value="成功">成功</option>
+							<option value="失败">失败</option>
+							<option value="等待管理员审批">等待管理员审批</option>
+							<option value="管理员未同意">管理员未同意</option>
+						</select>
+					</div>
+					<button type="button" id="searchBtn" class="btn btn-default">查询</button>
+				</form>
+			</div>
+			<div class="row">
+				<table id="tb_controlLog"></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

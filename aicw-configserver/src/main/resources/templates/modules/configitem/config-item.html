@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <!--工程内部js-->
+    <script type="text/javascript" src="javascripts/modules/configitem/config-item.js"></script>
+    <style type="text/css">
+    	.list-group-item.active,
+    	.list-group-item.active:hover {
+    		background-color: #e2e2e2;
+    		border-color: #e2e2e2;
+    	}
+    </style>
+</head>
+<body>
+<div class="inner-content">
+	<div class="header" style="padding:0em 0em 0em 0em;margin:0em 0em .8em 0em">
+		<h1 class="page-title">配置项管理</h1>
+		<ul class="breadcrumb">
+			<li><a href="index.html">主页</a></li>
+			<li class="active">配置项管理</li>
+		</ul>
+	</div>
+	<div class="main-content">
+		<div class="row form-group">
+			<div class="col-sm-2">
+				<select name="productId" id="productId" class="form-control" onchange="changeModuleSelect()">
+	            </select>
+			</div>
+			<div class="col-sm-2">
+				<select name="moduleId" id="moduleId" class="form-control" onchange="buildConfigTypeList()">
+	            </select>
+			</div>
+			<div class="col-sm-1 btn-group">
+			    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+			    	<i class="fa fa-plus"> 增加</i>
+			        <span class="caret"></span>
+			    </button>
+			    <ul class="dropdown-menu">
+			        <li><a href="javascript:void(0)" title="新增配置分类及其配置项"><i class="fa fa-tasks"> 分类及配置项</i></a></li>
+			        <li><a href="javascript:void(0)" title="对现有分类增加配置项"><i class="fa fa-qrcode"> 配置项</i></a></li>
+			    </ul>
+			</div>
+			<div class="col-sm-1 btn-group">
+			    <button type="button" class="btn btn-warning dropdown-toggle">
+			    	<i class="fa fa-refresh"> 重新写入配置</i>
+			    </button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3 col-md-3" style="padding-right:0px">
+				<div class="panel panel-default">
+					<div class="panel-heading no-collapse">
+						<h3 class="panel-title text-center">配置类别</h3>
+					</div>
+					<div class="list-group">
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9 col-md-9" style="padding-left:0px">
+				<div class="panel panel-default">
+					<div class="panel-heading no-collapse">
+						<h3 class="panel-title text-center">配置项</h3>
+					</div>
+					<form class="form-horizontal" role="form">
+						<table class="table">
+							<!-- <tr>
+								<td>
+									<div class="row">
+										<div class="col-sm-3">
+											<b>数据库JDBC驱动</b><span class="label label-danger pull-down pull-left">extends</span>
+										</div>
+										<div class="col-sm-9">
+											<a href="#" onclick="deleteConfigRow(this)"><i class="fa fa-minus-square-o pull-right" style="font-size: 25px" title="删除此项"></i></a>
+										</div>
+									</div>
+									<div  class="row">
+										<div class="col-sm-3">
+											<label class="control-label">datasource.driver-class-name</label>
+										</div>
+										<div class="col-sm-9">
+											<input type="text" class="form-control"/>
+										</div>
+									</div>
+								</td>
+							</tr> -->
+						</table>
+					</form>
+					<div align="right" style="margin-bottom:15px;margin-right:10px;"><!-- button不能放form里，否则layer失效 -->
+						<button class="btn btn-success"><i class="fa fa-save"> 保存</i></button>
+					    <button class="btn btn-info" style="margin-left:30px;"><i class="fa fa-undo"> 重置</i></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

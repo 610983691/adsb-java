@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+
+<!--第三方CSS-->
+<link href="/javascripts/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<link href="/javascripts/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
+<link href="/stylesheets/theme.css" rel="stylesheet" />
+<link href="/javascripts/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet" />
+<link href="/javascripts/bootstrapvalidator/dist/css/bootstrapValidator.min.css" rel="stylesheet" />
+<link href="/javascripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<link href="/javascripts/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+<!--第三方js-->
+<script type="text/javascript" src="/javascripts/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/javascripts/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="/javascripts/layer/layer.js"></script>
+<script type="text/javascript" src="/javascripts/bootstrapvalidator/dist/js/bootstrapValidator.js"></script>
+<script type="text/javascript" src="/javascripts/bootstrapvalidator/dist/js/language/zh_CN.js"></script>
+<script type="text/javascript" src="/javascripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="/javascripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="/javascripts/bootstrap-select/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="/javascripts/bootstrap-select/defaults-zh_CN.min.js"></script>
+<!--工程内部js-->
+<script type="text/javascript" src="/javascripts/commons/windows.js"></script>
+<script type="text/javascript" src="/javascripts/commons/dictionary.js"></script>
+<script type="text/javascript" src="/javascripts/modules/user/user_add.js"></script>
+</head>
+<body>
+	<form class="form-horizontal" role="form">
+		<div class="container">
+			<fieldset>
+				<legend></legend>
+				<div class="row form-group">
+					<label class="control-label col-sm-2">用户名称：</label>
+					<div class="col-sm-4">
+						<input type="text" name="userName" class="form-control" placeholder="请输入用户名" />
+					</div>
+					<label class="control-label col-sm-2">用户账号：</label>
+					<div class="col-sm-4">
+						<input class="form-control" id="userAccount" name="userAccount" type="text" placeholder="请输入账号" />
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="control-label col-sm-2">密码：</label>
+					<div class="col-sm-4">
+						<input type="password" name="loginPassword" class="form-control" placeholder="请输入密码" />
+					</div>
+					<label class="control-label col-sm-2">确认密码：</label>
+					<div class="col-sm-4">
+						<input type="password" name="loginPasswordConfirm" class="form-control" placeholder="请输入密码" />
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="control-label col-sm-2">性别：</label>
+					<div class="col-sm-4">
+						<select class="selectpicker show-tick form-control" id="userGender" name="userGender" data-live-search="true">
+						</select>
+					</div>
+					<label class="control-label col-sm-2">身份证号码：</label>
+					<div class="col-sm-4">
+						<input class="form-control" name="idNumber" type="text" placeholder="请输入身份证号码" />
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="control-label col-sm-2">短信权限：</label>
+					<div class="col-sm-4">
+						<select class="selectpicker show-tick form-control" id="isReviceMsgId" name="isReviceMsg" data-live-search="true">
+						</select>
+					</div>
+					<label class="control-label col-sm-2">用户状态：</label>
+					<div class="col-sm-4">
+						<select class="selectpicker show-tick form-control" id="userStatus" name="userStatus" data-live-search="true">
+						</select>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="control-label col-sm-2">手机号码：</label>
+					<div class="col-sm-4">
+						<input class="form-control" name="telphone" type="text" placeholder="" />
+					</div>
+					<label class="control-label col-sm-2">民族：</label>
+					<div class="col-sm-4">
+						<select class="selectpicker show-tick form-control" id="nation" name="nation" data-live-search="true">
+						</select>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="control-label col-sm-2">省份：</label>
+					<div class="col-sm-4">
+						<select class="selectpicker show-tick form-control" id="provinceDic" name="provinceDic" data-live-search="true">
+						</select>
+					</div>
+					<label class="control-label col-sm-2">城市：</label>
+					<div class="col-sm-4">
+						<select class="selectpicker show-tick form-control" id="regionDic" name="regionDic" data-live-search="true">
+						</select>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="control-label col-sm-2">生效时间：</label>
+					<div class="col-sm-4">
+						<input class="form-control" type="text" name="validDate" id="validDate_datetimepicker" data-date-format="yyyy-mm-dd hh:ii:ss" />
+					</div>
+					<label class="control-label col-sm-2">失效时间：</label>
+					<div class="col-sm-4">
+						<input class="form-control" type="text" name="invalidDate" id="invalidDate_datetimepicker" data-date-format="yyyy-mm-dd hh:ii:ss" />
+					</div>
+				</div>
+			</fieldset>
+		</div>
+	</form>
+	<div align="center" style="margin: 0em 0em 1em 0em">
+		<!-- button不能放form里，否则layer失效 -->
+		<button class="btn btn-success">
+			<i class="fa fa-save">保存</i>
+		</button>
+		<button class="btn btn-info" style="margin-left: 30px;">
+			<i class="fa fa-undo">取消</i>
+		</button>
+	</div>
+</body>
+</html>

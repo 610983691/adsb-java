@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-parent</artifactId>
+		<version>Dalston.SR5</version>
+		<relativePath/>
+	</parent>
+
+	<groupId>com.coulee</groupId>
+	<artifactId>aicw</artifactId>
+	<version>1.0</version>
+
+	<packaging>pom</packaging>
+
+	<name>enterprise applications inner controller wall</name>
+	
+	<properties>
+		<main.basedir>.</main.basedir>
+		<packageZip>none</packageZip>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<skipTests>true</skipTests>
+	</properties>
+
+	<modules>
+		<module>aicw-foundations</module>
+		<module>aicw-configserver</module>
+		<module>aicw-manager</module>
+		<module>aicw-scheduler</module>
+        <module>aicw-collectdriver</module>
+        <module>aicw-sms</module>
+    <module>aicw-registryserver</module>
+  </modules>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<resources><!-- 资源文件配置 -->
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.json</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<!-- 编译插件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<!-- 打jar包插件，指定jvm参数 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<addMavenDescriptor>true</addMavenDescriptor>
+						<manifestEntries>
+							<JVM>${JVM}</JVM><!-- 启动时的JVM参数，每个工程需要增加JVM属性配置 -->
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			<!-- spring boot repackage -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>${packageZip}</phase>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>buildinfo</id>
+						<goals>
+							<goal>build-info</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- 公共资源处理，如启动脚本 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>build-logback.xml</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<failOnError>false</failOnError>
+							<target>
+								<copy todir="${project.build.directory}/classes" file="${main.basedir}/src/main/resources/logback.xml" overwrite="true" verbose="true" encoding="UTF-8"/>
+								<replace file="${project.build.directory}/classes/logback.xml" token="{0}" value="${project.artifactId}" encoding="UTF-8"/>
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>build-release-zip</id>
+						<phase>${packageZip}</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<copy todir="${project.build.directory}/start-scripts-tmp" overwrite="true" verbose="true">
+									<fileset dir="${main.basedir}/src/main/scripts"/>
+								</copy>
+								<replace dir="${project.build.directory}/start-scripts-tmp" token="{0}" value="${project.artifactId}-${project.version}">
+									<include name="*.*"/>
+								</replace>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- 打ZIP发布包插件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptors>
+						<descriptor>${main.basedir}/src/main/assembly/package.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>${packageZip}</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
+</project>

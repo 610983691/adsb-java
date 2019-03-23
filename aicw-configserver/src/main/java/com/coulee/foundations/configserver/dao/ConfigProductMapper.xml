@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coulee.foundations.configserver.dao.ConfigProductMapper">
+  <resultMap id="BaseResultMap" type="com.coulee.foundations.configserver.entity.ConfigProduct">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="PRODUCT_NAME" jdbcType="VARCHAR" property="productName" />
+    <result column="PRODUCT_MARK" jdbcType="VARCHAR" property="productMark" />
+    <result column="CRYPT_TYPE" jdbcType="VARCHAR" property="cryptType" />
+    <result column="CRYPT_KEY" jdbcType="VARCHAR" property="cryptKey" />
+    <result column="CREATE_UUID" jdbcType="VARCHAR" property="createUuid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PRODUCT_NAME, PRODUCT_MARK, CRYPT_TYPE, CRYPT_KEY, CREATE_UUID
+  </sql>
+  <select id="findById" parameterType="Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PT_CONFIG_PRODUCT
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="delete" parameterType="Integer">
+    delete from PT_CONFIG_PRODUCT
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="add" parameterType="com.coulee.foundations.configserver.entity.ConfigProduct">
+    insert into PT_CONFIG_PRODUCT (ID, PRODUCT_NAME, PRODUCT_MARK, 
+      CRYPT_TYPE, CRYPT_KEY, CREATE_UUID
+      )
+    values (#{id,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, #{productMark,jdbcType=VARCHAR}, 
+      #{cryptType,jdbcType=VARCHAR}, #{cryptKey,jdbcType=VARCHAR}, #{createUuid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="update" parameterType="com.coulee.foundations.configserver.entity.ConfigProduct">
+    update PT_CONFIG_PRODUCT
+    <set>
+      <if test="productName != null">
+        PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productMark != null">
+        PRODUCT_MARK = #{productMark,jdbcType=VARCHAR},
+      </if>
+      <if test="cryptType != null">
+        CRYPT_TYPE = #{cryptType,jdbcType=VARCHAR},
+      </if>
+      <if test="cryptKey != null">
+        CRYPT_KEY = #{cryptKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createUuid != null">
+        CREATE_UUID = #{createUuid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PT_CONFIG_PRODUCT
+    <where>
+      <if test="params != null">
+        <if test="params.productName != null and params.productName !=''">
+          and PRODUCT_NAME = #{params.productName,jdbcType=VARCHAR}
+        </if>
+        <if test="params.productMark != null and params.productMark !=''">
+          and PRODUCT_MARK = #{params.productMark,jdbcType=VARCHAR}
+        </if>
+        <if test="params.cryptType != null and params.cryptType !=''">
+          and CRYPT_TYPE = #{params.cryptType,jdbcType=VARCHAR}
+        </if>
+        <if test="params.cryptKey != null and params.cryptKey !=''">
+          and CRYPT_KEY = #{params.cryptKey,jdbcType=VARCHAR}
+        </if>
+        <if test="params.createUuid != null and params.createUuid !=''">
+          and CREATE_UUID = #{params.createUuid,jdbcType=VARCHAR}
+        </if>
+        <if test="params.id != null">
+          and ID = #{params.id,jdbcType=INTEGER}
+        </if>
+      </if>
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	
+	<!--第三方CSS-->
+    <link href="/javascripts/bootstrap-fileinput/css/fileinput.css" rel="stylesheet"/>
+
+	<!--第三方js-->
+    <script type="text/javascript" src="/javascripts/bootstrap-fileinput/js/fileinput.js"></script>
+    <script type="text/javascript" src="/javascripts/bootstrap-fileinput/js/locales/zh.js"></script>
+	
+    <!--工程内部js-->
+    <script type="text/javascript" src="javascripts/modules/system/configdata.js"></script>
+    <style type="text/css">
+    	.list-group-item.active,
+    	.list-group-item.active:hover {
+    		background-color: #e2e2e2;
+    		border-color: #e2e2e2;
+    	}
+    </style>
+</head>
+<body>
+<div class="inner-content">
+	<div class="header" style="padding:0em 0em 0em 0em;margin:0em 0em 0.8em 0em">
+		<h1 class="page-title">配置导入</h1>
+		<ul class="breadcrumb">
+			<li><a href="index.html">主页</a></li>
+			<li><a href="#">系统管理</a></li>
+			<li class="active">配置导入</li>
+		</ul>
+	</div>
+	<div class="main-content">
+	<form action="" enctype="multipart/form-data">
+		<div class="row form-group">
+			<div class="col-sm-2">
+				<input name="dbFile" id="dbFile" class="file-loading" type="file"/>
+			</div>
+			<div class="col-sm-2">
+				<select name="productId" id="productId" class="form-control" onchange="changeModuleSelect()">
+	            </select>
+			</div>
+			<div class="col-sm-2">
+				<select name="moduleId" id="moduleId" class="form-control" onchange="buildConfigTypeList()">
+	            </select>
+			</div>
+			<div class="col-sm-1 btn-group">
+			    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+			    	<i class="fa fa-arrow-circle-o-down"> 导入</i>
+			        <span class="caret"></span>
+			    </button>
+			    <ul class="dropdown-menu">
+			        <li><a href="javascript:void(0)" title="导入某产品或某模块的分类配置"><i class="fa fa-angle-down"> 导入配置类别</i></a></li>
+			        <li><a href="javascript:void(0)" title="导入某产品或某模块的全部配置"><i class="fa fa-angle-double-down"> 导入全部配置</i></a></li>
+			    </ul>
+			</div>
+		</div>
+		</form>
+		<div class="row">
+			<div class="col-sm-3 col-md-3" style="padding-right:0px">
+				<div class="panel panel-default">
+					<div class="panel-heading no-collapse">
+						<h3 class="panel-title text-center">配置类别</h3>
+					</div>
+					<div class="list-group">
+						<table class="table"><tr style="text-align:center"><td>没有找到匹配的记录</td></tr></table>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9 col-md-9" style="padding-left:0px">
+				<div class="panel panel-default">
+					<div class="panel-heading no-collapse">
+						<h3 class="panel-title text-center">配置项</h3>
+					</div>
+					<form class="form-horizontal" role="form">
+						<table class="table">
+							<tr style="text-align:center"><td>没有找到匹配的记录</td></tr>
+						</table>
+					</form>
+					<div align="right" style="margin-bottom:15px;margin-right:10px;"><!-- button不能放form里，否则layer失效 -->
+						<button class="btn btn-success"><i class="fa fa-save"> 保存</i></button>
+					    <button class="btn btn-info" style="margin-left:30px;"><i class="fa fa-undo"> 重置</i></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
