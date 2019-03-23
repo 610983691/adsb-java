@@ -1,9 +1,12 @@
 package com.coulee.foundations.configserver.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,6 +27,7 @@ import com.coulee.foundations.configserver.entity.Location;
 @Controller
 public class EntranceController {
 
+	
 	/**
 	 * Description: 欢迎页<br> 
 	 * Created date: 2017年12月19日
@@ -66,12 +70,24 @@ public class EntranceController {
 	
 	@RequestMapping("/locations")
 	@ResponseBody
-	public String loadLocationData(){
-		List<Location> result =  generateLocations();
+	public String loadLocationData() throws IOException{
+		Set<Location> result =  getRealLocations();
 		return JSONObject.toJSONString(result);
 	}
 	
-	private static final int times=10;
+	private static final int times=100;
+	
+	/***
+	 * 这个更真实
+	 * @return
+	 * @throws IOException 
+	 */
+	private Set<Location> getRealLocations() throws IOException{
+		List<Location> list = ReadExcel.read();
+		Set<Location> set = new HashSet<>();
+		set.addAll(list);
+		return set;
+	}
 	
 	private List<Location> generateLocations(){
 		List<Location> result = new ArrayList<>(times);

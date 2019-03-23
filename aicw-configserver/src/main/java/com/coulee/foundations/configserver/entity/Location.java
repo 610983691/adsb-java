@@ -17,7 +17,20 @@ public class Location extends BaseEntity {
 
     private String lon;
 
-
+    public Location(){
+    	
+    }
+    
+    /**
+     * 維度、經度
+     * @param lat
+     * @param lon
+     */
+    public Location(String lat,String lon){
+    	this.lat=lat;
+    	this.lon=lon;
+    }
+    
     private static final long serialVersionUID = 1L;
 
 
