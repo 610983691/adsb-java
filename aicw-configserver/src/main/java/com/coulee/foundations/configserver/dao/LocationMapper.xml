@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coulee.foundations.configserver.dao.LocationMapper">
+  <resultMap id="BaseResultMap" type="com.coulee.foundations.configserver.entity.Location">
+    <result column="LAT" jdbcType="VARCHAR" property="lat" />
+    <result column="LON" jdbcType="VARCHAR" property="lon" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    LAT, LON
+  </sql>
+  <insert id="add" parameterType="com.coulee.foundations.configserver.entity.Location">
+    insert into fly_road (LAT, LON)
+    values ( #{lat,jdbcType=VARCHAR}, #{lon,jdbcType=VARCHAR})
+  </insert>
+  <select id="findByParams" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fly_road
+  </select>
+  
+</mapper>

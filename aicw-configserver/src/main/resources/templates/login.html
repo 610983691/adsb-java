@@ -44,48 +44,7 @@
 	map.setCurrentCity("成都");          // 设置地图显示的城市 此项是必须设置的
 	map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
 	
-	
-	var param = {"nickName":"童杰"};
-	
-	loadHeatmap(param);
-	loadTodayDatas(param);
-    
-	/**加载热力图 */
-	function loadHeatmap(param){
-		$.ajax({
-			  type: 'post',
-			  url: '/location/hotMapData/',
-			  data:JSON.stringify(param),
-			  contentType:'application/json',
-			  success: function(res){
-				  var datas = JSON.parse(res);
-				  var points=[];
-				  for(var i =0;i<datas.length;i++){
-					  var point = {"lng":datas[i].bdLongitude,"lat":datas[i].bdLatitude,"count":datas[i].count};
-					  points.push(point);
-				  }
-				  heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":20});
-				  map.addOverlay(heatmapOverlay);
-				  heatmapOverlay.setDataSet({data:points,max:100});
-				  heatmapOverlay.show();
-				  var setGradient =function(){
-				     	/*格式如下所示:
-						{
-					  		0:'rgb(102, 255, 0)',
-					 	 	.5:'rgb(255, 170, 0)',
-						  	1:'rgb(255, 0, 0)'
-						}*/
-				     	var gradient = {};
-				     	var colors = document.querySelectorAll("input[type='color']");
-				     	colors = [].slice.call(colors,0);
-				     	colors.forEach(function(ele){
-							gradient[ele.getAttribute("data-key")] = ele.value; 
-				     	});
-				        heatmapOverlay.setOptions({"gradient":gradient});
-				    }
-			  }
-			});
-	}
+
 	
 	/**标签提示信息*/
 	function addClickHandler(content,marker,opts){
@@ -100,47 +59,31 @@
 		map.openInfoWindow(infoWindow,point); //开启信息窗口
 	}
 	
-	/**加载今天的定位图*/
-	function loadTodayDatas(param){
+
+	
+	
+	loadHeatmap();
+	/**加载热力图 */
+	function loadHeatmap(){
 		$.ajax({
 			  type: 'post',
-			  data:JSON.stringify(param),
-			  url: '/location/todayData/',
+			  url: '/locations',
 			  contentType:'application/json',
 			  success: function(res){
-				  var locations = JSON.parse(res);
-				  var data_info =[];
-				  var length = locations.length;
-				  var currentPoint = new BMap.Point(locations[0].bdLongitude, locations[0].bdLatitude);
-				  var marker = new BMap.Marker(currentPoint);  // 创建标注
-				  map.addOverlay(marker);               // 将标注添加到地图中
-				  marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
-				  for(var i=1;i<length;i++){
-					  var point = [];
-					  point.push(locations[i].bdLongitude);
-					  point.push(locations[i].bdLatitude);
-					  point.push("时间:"+locations[i].reportDateTime+"速度:"+locations[i].speed+" 米每秒");
-					  data_info.push(point);
+				 
+				  var datas = JSON.parse(res);
+				  console.log(datas);
+				  var points=[];
+				  for(var i =0;i<datas.length;i++){
+					  var point = {"lon":datas[i].lon,"lat":datas[i].lat};
+					  points.push(point);
 				  }
-				  var opts = {
-								width : 250,     // 信息窗口宽度
-								height: 80,     // 信息窗口高度
-								title : "提示" , // 信息窗口标题
-								enableMessage:true//设置允许信息窗发送短息
-							   };
-				  for(var i=0;i<data_info.length;i++){
-						var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]));  // 创建标注
-						var content = data_info[i][2];
-						map.addOverlay(marker);               // 将标注添加到地图中
-						addClickHandler(content,marker,opts);
-				  }
-			  }
-			});
+				  debugger;
+					var polyline = new BMap.Polyline(points, {strokeColor:"blue", strokeWeight:6, strokeOpacity:0.5});  //定义折线
+					map.addOverlay(polyline);     //添加折线到地图上
+					
+			}
+		});
 	}
-	
-	var pointA = new BMap.Point(106.486654,29.490295);  // 创建点坐标A--大渡口区
-	var pointB = new BMap.Point(106.581515,29.615467);  // 创建点坐标B--江北区
-	var polyline = new BMap.Polyline([pointA,pointB], {strokeColor:"blue", strokeWeight:6, strokeOpacity:0.5});  //定义折线
-	map.addOverlay(polyline);     //添加折线到地图上
 </script>
 </html>
