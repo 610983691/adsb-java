@@ -24,39 +24,6 @@ public class ConfigServerComponents {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Value("${spring.cloud.zookeeper.connect-string}")
-	private String zkUrl;
-
-	/**
-	 * Description: 根据配置将ZK存储配置信息根路径静态常量赋值<br> 
-	 * Created date: 2018年1月24日
-	 * @param root
-	 * @author oblivion
-	 */
-	@Value("${spring.cloud.zookeeper.config.root}")
-	public void setZkConfigRoot(String root) {
-		ConfigServerConstants.ZK_CONFIG_ROOT = root;
-	}
-	
-	/**
-	 * Description: 初始化zk工具类<br> 
-	 * Created date: 2017年12月13日
-	 * @return
-	 * @throws Exception
-	 * @author oblivion
-	 */
-	@Bean
-	public ZookeeperTools zookeeperTools() throws Exception {
-		ZookeeperTools zookeeperTools = new ZookeeperTools();
-		zookeeperTools.setZkConnectionString(zkUrl);
-		boolean b = zookeeperTools.testConnection();
-		if (b) {
-			zookeeperTools.init();
-		} else {
-			throw new Exception("fail to init zookeeper connection !");
-		}
-		return zookeeperTools;
-	}
 
 	/**
 	 * Description: sqlite数据源<br>
