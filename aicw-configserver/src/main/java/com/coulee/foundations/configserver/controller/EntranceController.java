@@ -37,9 +37,46 @@ public class EntranceController {
 	 */
 	@RequestMapping("/")
 	public String welcome(Map<String, Object> model) {
-		return "login";
+		return "line1";
 	}
 
+	/**
+	 * Description: 欢迎页<br> 
+	 * Created date: 2017年12月19日
+	 * @param model
+	 * @return
+	 * @author oblivion
+	 */
+	@RequestMapping("/plane1")
+	public String plane1(Map<String, Object> model) {
+		return "line1";
+	}
+	
+	
+	/**
+	 * Description: 欢迎页<br> 
+	 * Created date: 2017年12月19日
+	 * @param model
+	 * @return
+	 * @author oblivion
+	 */
+	@RequestMapping("/plane2")
+	public String plane2(Map<String, Object> model) {
+		return "line2";
+	}
+	
+	/**
+	 * Description: 欢迎页<br> 
+	 * Created date: 2017年12月19日
+	 * @param model
+	 * @return
+	 * @author oblivion
+	 */
+	@RequestMapping("/plane3")
+	public String plane3(Map<String, Object> model) {
+		return "line3";
+	}
+	
 	/**
 	 * Description: 登录成功后的首页<br> 
 	 * Created date: 2017年12月19日
@@ -71,6 +108,27 @@ public class EntranceController {
 	@RequestMapping("/locations")
 	@ResponseBody
 	public String loadLocationData() throws IOException{
+		Set<Location> result =  getRealLocations();
+		return JSONObject.toJSONString(result);
+	}
+	
+	@RequestMapping("/flydata1")
+	@ResponseBody
+	public String data1() throws IOException{
+		Set<Location> result =  getRealLocations();
+		return JSONObject.toJSONString(result);
+	}
+	
+	@RequestMapping("/flydata2")
+	@ResponseBody
+	public String flydata2() throws IOException{
+		Set<Location> result =  getRealLocations();
+		return JSONObject.toJSONString(result);
+	}
+	
+	@RequestMapping("/flydata3")
+	@ResponseBody
+	public String flydata3() throws IOException{
 		Set<Location> result =  getRealLocations();
 		return JSONObject.toJSONString(result);
 	}

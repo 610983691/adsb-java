@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="./resources/img/myicon/bobby_favicon.ico" rel="shortcut icon">
+    <title>欢迎访问</title>
+    <!-- Bootstrap Core CSS 国内CDN-->
+	<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.css" rel="stylesheet">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+	<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.js"></script>
+    <!-- Bootstrap Core JavaScript 国内CDN -->
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.js"></script>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    	ul,li{list-style: none;margin:0;padding:0;float:left;}
+		html{height:100%}
+		body{height:100%;margin:0px;padding:0px;font-family:"微软雅黑";}
+		#container{height:500px;width:100%;}
+		#r-result{width:100%;}
+    </style>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=WxM3nw2OYe4ukF0ewMeI4ooiTRniGlqn"></script>
+	<script type="text/javascript" src="https://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+</head>
+<body>
+	<div id="allmap"></div>
+    <!-- Footer -->
+    <div style="position:absolute;bottom:1%;left:40%;">
+        <p>Copyright &copy; Bobby Cat 2017</p>
+	</div>
+</body>
+<script type="text/javascript">
+	
+	/**标签提示信息*/
+	function addClickHandler(content,marker,opts){
+		marker.addEventListener("click",function(e,opts){
+			openInfo(content,e,opts)}
+		);
+	}
+	function openInfo(content,e,opts){
+		var p = e.target;
+		var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+		var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象 
+		map.openInfoWindow(infoWindow,point); //开启信息窗口
+	}
+	
+
+	
+	
+	loadHeatmap();
+	/**加载热力图 */
+	function loadHeatmap(){
+		$.ajax({
+			  type: 'post',
+			  url: '/locations',
+			  contentType:'application/json',
+			  success: function(res){
+				 
+				  var datas = JSON.parse(res);
+				  console.log(datas);
+				  var points=[];
+				  for(var i =0;i<datas.length;i++){
+					  points.push(new BMap.Point(datas[i].lon,datas[i].lat));
+				  }
+				  console.log(points);
+				// 百度地图API功能
+					var map = new BMap.Map("allmap");    // 创建Map实例
+					map.centerAndZoom(new BMap.Point(datas[0].lon, datas[0].lat), 14);  // 初始化地图,设置中心点坐标和地图级别
+// 					map.setCurrentCity("成都");          // 设置地图显示的城市 此项是必须设置的
+					map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+					var polyline = new BMap.Polyline(points, {strokeColor:"blue", strokeWeight:3, strokeOpacity:0.5});  //定义折线
+					map.addOverlay(polyline);     //添加折线到地图上
+					
+					var pointA = new BMap.Point(106.486654,39.490295);  // 创建点坐标A--大渡口区
+					var pointB = new BMap.Point(106.581515,19.615467);  // 创建点坐标B--江北区
+					var polyline2 = new BMap.Polyline([pointA,pointB], {strokeColor:"green", strokeWeight:3, strokeOpacity:0.5});  //定义折线
+					map.addOverlay(polyline2);     //添加折线到地图上
+					
+					
+					var pointC = new BMap.Point(166.486654,29.490295);  // 创建点坐标A--大渡口区
+					var pointD = new BMap.Point(167.581515,49.615467);  // 创建
+					var polyline3 = new BMap.Polyline([pointC,pointD], {strokeColor:"red", strokeWeight:3, strokeOpacity:0.5});  //定义折线
+					map.addOverlay(polyline3);     //添加折线到地图上
+					
+			}
+		});
+	}
+</script>
+</html>
