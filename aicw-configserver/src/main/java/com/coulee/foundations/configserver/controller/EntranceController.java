@@ -37,7 +37,7 @@ public class EntranceController {
 	 */
 	@RequestMapping("/")
 	public String welcome(Map<String, Object> model) {
-		return "line1";
+		return "login";
 	}
 
 	/**
@@ -108,28 +108,28 @@ public class EntranceController {
 	@RequestMapping("/locations")
 	@ResponseBody
 	public String loadLocationData() throws IOException{
-		Set<Location> result =  getRealLocations();
+		List<List<Location>>  result =  getRealLocations();
 		return JSONObject.toJSONString(result);
 	}
 	
 	@RequestMapping("/flydata1")
 	@ResponseBody
 	public String data1() throws IOException{
-		Set<Location> result =  getRealLocations();
+		List<List<Location>>  result =  getRealLocations();
 		return JSONObject.toJSONString(result);
 	}
 	
 	@RequestMapping("/flydata2")
 	@ResponseBody
 	public String flydata2() throws IOException{
-		Set<Location> result =  getRealLocations();
+		List<List<Location>>  result =  getRealLocations();
 		return JSONObject.toJSONString(result);
 	}
 	
 	@RequestMapping("/flydata3")
 	@ResponseBody
 	public String flydata3() throws IOException{
-		Set<Location> result =  getRealLocations();
+		List<List<Location>>  result =  getRealLocations();
 		return JSONObject.toJSONString(result);
 	}
 	
@@ -140,11 +140,9 @@ public class EntranceController {
 	 * @return
 	 * @throws IOException 
 	 */
-	private Set<Location> getRealLocations() throws IOException{
-		List<Location> list = ReadExcel.read();
-		Set<Location> set = new HashSet<>();
-		set.addAll(list);
-		return set;
+	private List<List<Location>> getRealLocations() throws IOException{
+		List<List<Location>> list = ReadExcel.read();
+		return list;
 	}
 	
 	private List<Location> generateLocations(){

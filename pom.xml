@@ -29,11 +29,6 @@
 	<modules>
 		<module>aicw-foundations</module>
 		<module>aicw-configserver</module>
-		<module>aicw-manager</module>
-		<module>aicw-scheduler</module>
-        <module>aicw-collectdriver</module>
-        <module>aicw-sms</module>
-    <module>aicw-registryserver</module>
   </modules>
 	
 	<dependencies>

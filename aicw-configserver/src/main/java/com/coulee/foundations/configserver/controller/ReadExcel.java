@@ -26,20 +26,21 @@ import com.coulee.foundations.configserver.entity.Location;
 
 public class ReadExcel {
 
-	private static final String FLY_DATA_NAME = "fly_data.xlsx";
+	private static final String FLY_DATA_LAT_NAME = "fly_data_lat.xlsx";
+	private static final String FLY_DATA_LON_NAME = "fly_data_lon.xlsx";
 
-	private static String getFlyDataFilePath() {
+	private static String getFlyDataFilePath(String filename) {
 		String flyDataPath = null;
 		if (FilePathTools.isDeployModel()) {
 			File dbFolder = new File("data");
 			if (!dbFolder.exists()) {
 				dbFolder.mkdir();
 			}
-			File flydataFile = new File(dbFolder, FLY_DATA_NAME);
+			File flydataFile = new File(dbFolder, filename);
 			if (!flydataFile.exists()) {
 				ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 				try {
-					InputStream in = resolver.getResource(FLY_DATA_NAME).getInputStream();
+					InputStream in = resolver.getResource(filename).getInputStream();
 					FileUtils.copyInputStreamToFile(in, flydataFile);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -48,7 +49,7 @@ public class ReadExcel {
 			flyDataPath = flydataFile.getAbsolutePath();
 		} else {
 			String resourcesPath = "src".concat(File.separator).concat("main").concat(File.separator)
-					.concat("resources").concat(File.separator).concat(FLY_DATA_NAME);
+					.concat("resources").concat(File.separator).concat(filename);
 			File dbFile = new File(resourcesPath);
 			flyDataPath = dbFile.getAbsolutePath();
 		}
@@ -85,49 +86,76 @@ public class ReadExcel {
 
 	}
 
-	public static List<Location> read() throws IOException {
-		Workbook wb = null;
-		String filePath = getFlyDataFilePath();
-		FileInputStream inputStream = new FileInputStream(filePath);
-		if (isExcel2003(FLY_DATA_NAME)) {
-			wb = new HSSFWorkbook(inputStream);
+	public static List<List<Location>> read() throws IOException {
+		Workbook wbLat = null;
+		Workbook wbLon = null;
+		String latDataFileName = getFlyDataFilePath(FLY_DATA_LAT_NAME);
+		String lonDataFileName = getFlyDataFilePath(FLY_DATA_LON_NAME);
+		
+		FileInputStream latInputStream = new FileInputStream(latDataFileName);
+		FileInputStream lonInputStream = new FileInputStream(lonDataFileName);
+		if (isExcel2003(FLY_DATA_LAT_NAME)) {
+			wbLat = new HSSFWorkbook(latInputStream);
 		} else {
-			wb = new XSSFWorkbook(inputStream);
+			wbLat = new XSSFWorkbook(latInputStream);
 		}
-		return read(wb);
+		if (isExcel2003(FLY_DATA_LON_NAME)) {
+			wbLon = new HSSFWorkbook(lonInputStream);
+		} else {
+			wbLon = new XSSFWorkbook(lonInputStream);
+		}
+		return read(wbLon,wbLat);
 	}
 
 	/**
 	 * 读取文件内容
 	 * 
-	 * @param wb
+	 * @param wabLon
 	 * @return List<Map>
 	 * @throws IOException
 	 */
-	private static List<Location> read(Workbook wb) throws IOException {
-		List<Location> dataLst = new ArrayList<>();
+	private static List<List<Location>> read(Workbook wabLon,Workbook wabLat) throws IOException {
+		List<List<Location>> result = new ArrayList<>();
 		/** 得到第一个shell */
-		Sheet sheet = wb.getSheetAt(0);
+		Sheet lonSheet = wabLon.getSheetAt(0);
 		/** 得到Excel的行数 */
-		int totalRows = sheet.getPhysicalNumberOfRows();
-		int totalCells = 0;
+		int totalLonRows = lonSheet.getPhysicalNumberOfRows();
+		int totalLonCells = 0;
 		/** 得到Excel的列数 */
-		if (totalRows >= 1 && sheet.getRow(0) != null) {
-			totalCells = sheet.getRow(0).getPhysicalNumberOfCells();
+		if (totalLonRows >= 1 && lonSheet.getRow(0) != null) {
+			totalLonCells = lonSheet.getRow(0).getPhysicalNumberOfCells();
 		}
-		Row firstRow = sheet.getRow(0);// 第一行一定要放維度信息
-		Row secondRow = sheet.getRow(1);// 第二行放經度信息
-		/** 循环Excel的列 */
-		for (int c = 2; c < totalCells; c++) {// 前面兩列不要
-			Cell latCell = firstRow.getCell(c);
-			Cell lonCell = secondRow.getCell(c);
-			String lat = readCell(latCell);
-			String lon = readCell(lonCell);
-			Location local = new Location(lat,lon);
-			dataLst.add(local);
+		
+		/* 得到第一个shell */
+		Sheet latSheet = wabLat.getSheetAt(0);
+		/** 得到Excel的行数 */
+		int totalLatRows = latSheet.getPhysicalNumberOfRows();
+		int totalLatCells = 0;
+		/** 得到Excel的列数 */
+		if (totalLatRows >= 1 && latSheet.getRow(0) != null) {
+			totalLatCells = latSheet.getRow(0).getPhysicalNumberOfCells();
 		}
-		wb.close();
-		return dataLst;
+		
+		//行数不等或者列数不等，说明有错位，就不读取，直接返回。
+		if(totalLatRows!=totalLonRows||totalLatCells!=totalLonCells){
+			return null;
+		}
+		
+		for (int i = 0; i < totalLatRows; i++) {//一行一行的读
+			List<Location> onePlane = new ArrayList<>();
+			Row lonRow = lonSheet.getRow(i);//经度行
+			Row latRow = latSheet.getRow(i);//维度行
+			for (int j = 2; j < totalLonCells; j++) {//前面两列不要
+				Cell latCell = latRow.getCell(j);
+				Cell lonCell = lonRow.getCell(j);
+				String lat = readCell(latCell);
+				String lon = readCell(lonCell);
+				Location local = new Location(lat,lon);
+				onePlane.add(local);
+			}
+			result.add(onePlane);//读完一行表示一个飞机的信息读取完成
+		}
+		return result;
 	}
 
 	private static String readCell(Cell cell) {
