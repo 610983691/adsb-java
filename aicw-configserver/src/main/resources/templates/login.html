@@ -63,32 +63,34 @@
 			  url: '/locations',
 			  contentType:'application/json',
 			  success: function(res){
-				 
+
 				  var datas = JSON.parse(res);
-				  console.log(datas);
-				  var points=[];
-				  for(var i =0;i<datas.length;i++){
-					  points.push(new BMap.Point(datas[i].lon,datas[i].lat));
-				  }
-				  console.log(points);
-				// 百度地图API功能
+				  debugger;
+					// 百度地图API功能
 					var map = new BMap.Map("allmap");    // 创建Map实例
-					map.centerAndZoom(new BMap.Point(datas[0].lon, datas[0].lat), 14);  // 初始化地图,设置中心点坐标和地图级别
-// 					map.setCurrentCity("成都");          // 设置地图显示的城市 此项是必须设置的
+					map.centerAndZoom(new BMap.Point(datas[0][0].lon, datas[0][0].lat), 14);  // 初始化地图,设置中心点坐标和地图级别
 					map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
-					var polyline = new BMap.Polyline(points, {strokeColor:"blue", strokeWeight:3, strokeOpacity:0.5});  //定义折线
-					map.addOverlay(polyline);     //添加折线到地图上
+					//添加地图类型控件
+					map.addControl(new BMap.MapTypeControl({
+						mapTypes:[
+				            BMAP_NORMAL_MAP,
+				            BMAP_HYBRID_MAP
+				        ]}));	  
 					
-					var pointA = new BMap.Point(106.486654,39.490295);  // 创建点坐标A--大渡口区
-					var pointB = new BMap.Point(106.581515,19.615467);  // 创建点坐标B--江北区
-					var polyline2 = new BMap.Polyline([pointA,pointB], {strokeColor:"green", strokeWeight:3, strokeOpacity:0.5});  //定义折线
-					map.addOverlay(polyline2);     //添加折线到地图上
-					
-					
-					var pointC = new BMap.Point(166.486654,29.490295);  // 创建点坐标A--大渡口区
-					var pointD = new BMap.Point(167.581515,49.615467);  // 创建
-					var polyline3 = new BMap.Polyline([pointC,pointD], {strokeColor:"red", strokeWeight:3, strokeOpacity:0.5});  //定义折线
-					map.addOverlay(polyline3);     //添加折线到地图上
+				  
+				
+				  var lineCount = datas.length;
+				  for(var i =0;i<lineCount;i++){
+					  var dataarr=datas[i];
+					  var points=[];
+					  for(var j =0;j<dataarr.length;j++){
+						  points.push(new BMap.Point(dataarr[j].lon,dataarr[j].lat));
+					  }
+					  var polyline = new BMap.Polyline(points, {strokeColor:"blue", strokeWeight:3, strokeOpacity:0.5});  //定义折线
+					  map.addOverlay(polyline);     //添加折线到地图上
+				  }
+				  
+		
 					
 			}
 		});
