@@ -122,8 +122,8 @@ public class EntranceController {
 		
 		/*計算中間的點*/
 		for (int i = 1; i < times-1; i++) {
-			Location lo = randomLocation(Double.valueOf(begin.getLon()),
-					Double.valueOf(end.getLon()),Double.valueOf(begin.getLat()),
+			Location lo = randomLocation(Double.valueOf(begin.getLng()),
+					Double.valueOf(end.getLng()),Double.valueOf(begin.getLat()),
 					Double.valueOf(end.getLat()));
 			result.add(lo);
 		}
@@ -143,7 +143,7 @@ public class EntranceController {
 		double lat = ran.nextDouble()*rangeLat-rangeLat/2;
 		Location location = new Location();
 		location.setLat(String.valueOf(lat));
-		location.setLon(String.valueOf(lon));
+		location.setLng(String.valueOf(lon));
 		return location;
 	}
 	

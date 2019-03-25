@@ -15,7 +15,9 @@ public class Location extends BaseEntity {
 
     private String lat;
 
-    private String lon;
+    private String lng;
+    
+    private Integer count;
 
     public Location(){
     	
@@ -28,10 +30,29 @@ public class Location extends BaseEntity {
      */
     public Location(String lat,String lon){
     	this.lat=lat;
-    	this.lon=lon;
+    	this.lng=lon;
     }
     
-    private static final long serialVersionUID = 1L;
+    /**
+     * 維度、經度
+     * @param lat
+     * @param lon
+     */
+    public Location(String lat,String lon,Integer count){
+    	this.count=count;
+    	this.lat=lat;
+    	this.lng=lon;
+    }
+    
+    public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
+	private static final long serialVersionUID = 1L;
 
 
 	public String getLat() {
@@ -42,12 +63,12 @@ public class Location extends BaseEntity {
 		this.lat = lat;
 	}
 
-	public String getLon() {
-		return lon;
+	public String getLng() {
+		return lng;
 	}
 
-	public void setLon(String lon) {
-		this.lon = lon;
+	public void setLng(String lon) {
+		this.lng = lon;
 	}
 	
 	public boolean equals(Object o){
@@ -60,7 +81,7 @@ public class Location extends BaseEntity {
 				return true;
 			}else if(this.hashCode() == that.hashCode()){
 				return true;
-			}else if(this.lat.equals(that.getLat())&&this.lon.equals(that.getLon())){
+			}else if(this.lat.equals(that.getLat())&&this.lng.equals(that.getLng())){
 				return true;
 			}
 		}
@@ -68,7 +89,7 @@ public class Location extends BaseEntity {
 	}
 	
 	public int hashCode(){
-		return this.lat.hashCode()+this.lon.hashCode()*31;
+		return this.lat.hashCode()+this.lng.hashCode()*31;
 	}
 	
 	public String toString(){
