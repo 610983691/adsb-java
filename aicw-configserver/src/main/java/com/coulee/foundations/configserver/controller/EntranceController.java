@@ -141,7 +141,7 @@ public class EntranceController {
 	 * @throws IOException 
 	 */
 	private List<List<Location>> getRealLocations() throws IOException{
-		List<List<Location>> list = ReadExcel.read();
+		List<List<Location>> list = ReadTxt.readresult();
 		return list;
 	}
 	
