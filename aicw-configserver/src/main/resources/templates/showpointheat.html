@@ -84,9 +84,11 @@
 					  var polyline = new BMap.Polyline(points, {strokeColor:"blue", strokeWeight:3, strokeOpacity:0.5});  //定义折线
 					  map.addOverlay(polyline);     //添加折线到地图上
 					  
+					  var myIcon = new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/fox.gif", new BMap.Size(300,157));
 					  var markerPoint = new BMap.Point(dataarr[0].lon, dataarr[0].lat);
-					  var marker = new BMap.Marker(markerPoint);;  // 创建标注
+					  var marker = new BMap.Marker(markerPoint,{icon:myIcon});;  // 创建标注
 					  map.addOverlay(marker);               // 将标注添加到地图中
+				      marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
 				  }
 				  
 					
