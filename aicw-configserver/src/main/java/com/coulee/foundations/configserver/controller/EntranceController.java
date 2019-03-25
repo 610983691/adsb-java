@@ -39,43 +39,6 @@ public class EntranceController {
 	public String welcome(Map<String, Object> model) {
 		return "login";
 	}
-
-	/**
-	 * Description: 欢迎页<br> 
-	 * Created date: 2017年12月19日
-	 * @param model
-	 * @return
-	 * @author oblivion
-	 */
-	@RequestMapping("/plane1")
-	public String plane1(Map<String, Object> model) {
-		return "line1";
-	}
-	
-	
-	/**
-	 * Description: 欢迎页<br> 
-	 * Created date: 2017年12月19日
-	 * @param model
-	 * @return
-	 * @author oblivion
-	 */
-	@RequestMapping("/plane2")
-	public String plane2(Map<String, Object> model) {
-		return "line2";
-	}
-	
-	/**
-	 * Description: 欢迎页<br> 
-	 * Created date: 2017年12月19日
-	 * @param model
-	 * @return
-	 * @author oblivion
-	 */
-	@RequestMapping("/plane3")
-	public String plane3(Map<String, Object> model) {
-		return "line3";
-	}
 	
 	/**
 	 * Description: 登录成功后的首页<br> 
@@ -85,7 +48,18 @@ public class EntranceController {
 	 */
 	@RequestMapping("/index")
 	public String index() {
-		return "index";
+		return "login";
+	}
+	
+	
+	@RequestMapping("/heatmap")
+	public String data1() throws IOException{
+		return "showpointheat";
+	}
+	
+	@RequestMapping("/seamap")
+	public String flydata2() throws IOException{
+		return "showpoint_sea";
 	}
 	
 	/**
@@ -112,26 +86,21 @@ public class EntranceController {
 		return JSONObject.toJSONString(result);
 	}
 	
-	@RequestMapping("/flydata1")
+	@RequestMapping("/heatmapdata")
 	@ResponseBody
-	public String data1() throws IOException{
-		List<List<Location>>  result =  getRealLocations();
+	public String heatmapdata() throws IOException{
+		List<Location>  result =  ReadTxt.readInitHeatMapLocations();
 		return JSONObject.toJSONString(result);
 	}
 	
-	@RequestMapping("/flydata2")
+	@RequestMapping("/seamapdata")
 	@ResponseBody
-	public String flydata2() throws IOException{
-		List<List<Location>>  result =  getRealLocations();
+	public String seamapdata() throws IOException{
+		List<Location> result =  ReadTxt.readInitLocations();
 		return JSONObject.toJSONString(result);
 	}
 	
-	@RequestMapping("/flydata3")
-	@ResponseBody
-	public String flydata3() throws IOException{
-		List<List<Location>>  result =  getRealLocations();
-		return JSONObject.toJSONString(result);
-	}
+	
 	
 	private static final int times=100;
 	

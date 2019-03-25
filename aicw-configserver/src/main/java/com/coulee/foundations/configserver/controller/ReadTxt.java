@@ -19,6 +19,9 @@ public class ReadTxt {
 
 	private static final String FLY_DATA_LAT_NAME = "latData.txt";
 	private static final String FLY_DATA_LON_NAME = "lonData.txt";
+	
+	private static final String INIT_FLY_DATA_LAT_NAME = "initlatData.txt";
+	private static final String INIT_FLY_DATA_LON_NAME = "initlonData.txt";
 
 	
 	public static String readStream(InputStream in) {
@@ -106,6 +109,65 @@ public class ReadTxt {
 		return flyDataPath;
 	}
 
+	public static List<Location> readInitLocations() throws IOException{
+		List<Location> result = new ArrayList<>();
+		FileInputStream latInputStream = new FileInputStream(getFlyDataFilePath(INIT_FLY_DATA_LAT_NAME));
+		FileInputStream lonInputStream = new FileInputStream(getFlyDataFilePath(INIT_FLY_DATA_LON_NAME));
+		String latdata= readStream(latInputStream);
+		latdata=latdata.replaceAll("\r\n", "");
+		String londata = readStream(lonInputStream);
+		londata=londata.replaceAll("\r\n", "");
+		String[] latRows = latdata.split(";");
+		String[] lonRows = londata.split(";");
+		if(latRows.length!=lonRows.length) {//行数不同，表示飞机经纬度不一致可能有错位，因此直接丢弃掉这次读取。
+			return null;
+		}
+		int planeCounts = latRows.length;//飞机架数
+		for (int i=0;i<planeCounts;i++) {//遍历
+			String[] onePlaneLons = lonRows[i].split(",");//一架飞机的所有经度
+			String[] onePlaneLats = latRows[i].split(",");//一架飞机的所有纬度
+			if(onePlaneLons.length!=onePlaneLats.length) {//这架飞机的经纬度数量不一致表明有丢失数据，因此丢弃这架飞机的数据
+				continue;
+			}
+			int columns =onePlaneLons.length;//列数代表采样的经纬度点的数量
+			for (int j = 0; j < columns; j++) {
+				Location local = new Location(onePlaneLats[j],onePlaneLons[j]);
+				result.add(local);//飞机的一个点添加
+			}
+		}
+		return result;
+	}
+	
+	
+	public static List<Location> readInitHeatMapLocations() throws IOException{
+		List<Location> result = new ArrayList<>();
+		FileInputStream latInputStream = new FileInputStream(getFlyDataFilePath(INIT_FLY_DATA_LAT_NAME));
+		FileInputStream lonInputStream = new FileInputStream(getFlyDataFilePath(INIT_FLY_DATA_LON_NAME));
+		String latdata= readStream(latInputStream);
+		latdata=latdata.replaceAll("\r\n", "");
+		String londata = readStream(lonInputStream);
+		londata=londata.replaceAll("\r\n", "");
+		String[] latRows = latdata.split(";");
+		String[] lonRows = londata.split(";");
+		if(latRows.length!=lonRows.length) {//行数不同，表示飞机经纬度不一致可能有错位，因此直接丢弃掉这次读取。
+			return null;
+		}
+		int planeCounts = latRows.length;//飞机架数
+		for (int i=0;i<planeCounts;i++) {//遍历
+			String[] onePlaneLons = lonRows[i].split(",");//一架飞机的所有经度
+			String[] onePlaneLats = latRows[i].split(",");//一架飞机的所有纬度
+			if(onePlaneLons.length!=onePlaneLats.length) {//这架飞机的经纬度数量不一致表明有丢失数据，因此丢弃这架飞机的数据
+				continue;
+			}
+			int columns =onePlaneLons.length;//列数代表采样的经纬度点的数量
+			for (int j = 0; j < columns; j++) {
+				Location local = new Location(onePlaneLats[j],onePlaneLons[j],1);
+				result.add(local);//飞机的一个点添加
+			}
+		}
+		return result;
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
