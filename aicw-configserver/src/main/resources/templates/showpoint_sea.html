@@ -65,7 +65,7 @@
 			  success: function(res){
 					var datas = JSON.parse(res);
 				    var map = new BMap.Map("allmap");                       // 创建Map实例
-				    map.centerAndZoom(new BMap.Point(datas[0].lng, datas[0].lat), 13);     // 初始化地图,设置中心点坐标和地图级别
+				    map.centerAndZoom(new BMap.Point(datas[0].lng, datas[0].lat), 6);     // 初始化地图,设置中心点坐标和地图级别
 				    map.enableScrollWheelZoom();                        //启用滚轮放大缩小
 					//添加地图类型控件
 					map.addControl(new BMap.MapTypeControl({
@@ -84,9 +84,6 @@
 				            color: '#d340c3'
 				        }
 				        var pointCollection = new BMap.PointCollection(points, options);  // 初始化PointCollection
-				        pointCollection.addEventListener('click', function (e) {
-				          alert('单击点的坐标为：' + e.point.lng + ',' + e.point.lat);  // 监听点击事件
-				        });
 				        map.addOverlay(pointCollection);  // 添加Overlay
 				    } else {
 				        alert('请在chrome、safari、IE8+以上浏览器查看本示例');
