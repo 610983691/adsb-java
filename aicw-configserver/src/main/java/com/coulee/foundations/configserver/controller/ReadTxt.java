@@ -24,7 +24,7 @@ public class ReadTxt {
 	private static final String INIT_FLY_DATA_LON_NAME = "initlonData.txt";
 
 	
-	public static String readStream(InputStream in) {
+	private static String readStream(InputStream in) {
 		try {
 			// <1>创建字节数组输出流，用来输出读取到的内容
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -83,31 +83,33 @@ public class ReadTxt {
 	}
 	
 	private static String getFlyDataFilePath(String filename) {
-		String flyDataPath = null;
+		String dbFilePath = null;
 		if (FilePathTools.isDeployModel()) {
 			File dbFolder = new File("data");
 			if (!dbFolder.exists()) {
 				dbFolder.mkdir();
 			}
-			File flydataFile = new File(dbFolder, filename);
-			if (!flydataFile.exists()) {
+			File dbFile = new File(dbFolder, filename);
+			if (!dbFile.exists()) {
 				ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 				try {
 					InputStream in = resolver.getResource(filename).getInputStream();
-					FileUtils.copyInputStreamToFile(in, flydataFile);
+					FileUtils.copyInputStreamToFile(in, dbFile);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			flyDataPath = flydataFile.getAbsolutePath();
+			dbFilePath = dbFile.getAbsolutePath();
 		} else {
-			String resourcesPath = "src".concat(File.separator).concat("main").concat(File.separator)
-					.concat("resources").concat(File.separator).concat(filename);
+			String resourcesPath = "src".concat(File.separator).concat("main").concat(File.separator).concat("resources")
+					.concat(File.separator).concat(filename);
 			File dbFile = new File(resourcesPath);
-			flyDataPath = dbFile.getAbsolutePath();
+			dbFilePath = dbFile.getAbsolutePath();
 		}
-		return flyDataPath;
+		return dbFilePath;
 	}
+	
+	
 
 	public static List<Location> readInitLocations() throws IOException{
 		List<Location> result = new ArrayList<>();
