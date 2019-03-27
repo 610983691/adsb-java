@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.coulee.foundations.configserver.entity.Location;
+import com.coulee.foundations.configserver.entity.WxLocation;
 
 /**
  * Description: 页面入口控制器，主要做页面跳转<br>
@@ -97,6 +98,13 @@ public class EntranceController {
 	@ResponseBody
 	public String seamapdata() throws IOException{
 		List<Location> result =  ReadTxt.readInitLocations();
+		return JSONObject.toJSONString(result);
+	}
+	
+	@RequestMapping("/wxdata")
+	@ResponseBody
+	public String wxdata() throws IOException{
+		WxLocation result = new WxLocation("20","30",2858d);
 		return JSONObject.toJSONString(result);
 	}
 	
