@@ -96,7 +96,7 @@
 		});
 	}
 	
-	/**加载热力图 */
+	/**加载卫星覆盖范围*/
 	function wxdata(){
 		$.ajax({
 			  type: 'post',
@@ -109,6 +109,10 @@
 				    map.centerAndZoom(wxpoint, 6);     // 初始化地图,设置中心点坐标和地图级别
 				    var circle = new BMap.Circle(wxpoint,range,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3});
 				    map.addOverlay(circle);
+				    
+				    var myIcon = new BMap.Icon("images/wx.png", new BMap.Size(50,50));
+					var marker2 = new BMap.Marker(wxpoint,{icon:myIcon});  // 创建标注
+					map.addOverlay(marker2);              // 将标注添加到地图中
 			}
 		});
 	}

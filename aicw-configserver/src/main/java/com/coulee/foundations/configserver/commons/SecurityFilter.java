@@ -105,15 +105,6 @@ public class SecurityFilter implements Filter {
 	 * @author oblivion
 	 */
 	private boolean checkWhiteList(String url) {
-		if (whiteList.contains(url)) {
-			return true;
-		} else {
-			for (String s : whiteList) {
-				if (s.endsWith("*") && url.startsWith(s.replace("*", ""))) {
-					return true;
-				}
-			}
-		}
-		return false;
+		return true;
 	}
 }
