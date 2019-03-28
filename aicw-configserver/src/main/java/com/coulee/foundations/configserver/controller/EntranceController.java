@@ -104,7 +104,7 @@ public class EntranceController {
 	@RequestMapping("/wxdata")
 	@ResponseBody
 	public String wxdata() throws IOException{
-		WxLocation result = new WxLocation("20","30",2858d);
+		WxLocation result = ReadTxt.readWxLocations();
 		return JSONObject.toJSONString(result);
 	}
 	

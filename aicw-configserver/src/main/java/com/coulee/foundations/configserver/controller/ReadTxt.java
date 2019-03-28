@@ -14,6 +14,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 
 import com.coulee.aicw.foundations.utils.common.FilePathTools;
 import com.coulee.foundations.configserver.entity.Location;
+import com.coulee.foundations.configserver.entity.WxLocation;
 
 public class ReadTxt {
 
@@ -22,6 +23,8 @@ public class ReadTxt {
 	
 	private static final String INIT_FLY_DATA_LAT_NAME = "initlatData.txt";
 	private static final String INIT_FLY_DATA_LON_NAME = "initlonData.txt";
+	
+	private static final String WX_DATA_FILE_NAME = "wxlocation.txt";
 
 	
 	private static String readStream(InputStream in) {
@@ -168,6 +171,14 @@ public class ReadTxt {
 			}
 		}
 		return result;
+	}
+	
+	public static WxLocation readWxLocations() throws IOException{
+		FileInputStream wxInputstream = new FileInputStream(getFlyDataFilePath(WX_DATA_FILE_NAME));
+		String data= readStream(wxInputstream);
+		data=data.replaceAll("\r\n", "");
+		String[] datas = data.split(";")[0].split(",");//卫星的经纬度
+		return new WxLocation(datas[1], datas[0], Double.valueOf(datas[2]));
 	}
 	
 	public static void main(String[] args) {
