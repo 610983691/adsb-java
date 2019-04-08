@@ -84,6 +84,12 @@
 				        }
 				        var pointCollection = new BMap.PointCollection(points, options);  // 初始化PointCollection
 				        map.addOverlay(pointCollection);  // 添加Overlay
+				        pointCollection.addEventListener('click', function(e, opts) {//点击事件添加
+							var content = '单击点的坐标经度：' + e.point.lng + ',纬度：'
+									+ e.point.lat; // 监听点击事件
+							var infoWindow = new BMap.InfoWindow(content, opts); // 创建信息窗口对象 
+							map.openInfoWindow(infoWindow, e.point); //开启信息窗口
+						});
 				    } else {
 				        alert('请在chrome、safari、IE8+以上浏览器查看本示例');
 				    }
