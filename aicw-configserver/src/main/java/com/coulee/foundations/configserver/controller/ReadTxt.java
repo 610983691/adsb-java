@@ -16,6 +16,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 
 import com.coulee.aicw.foundations.utils.common.FilePathTools;
 import com.coulee.foundations.configserver.entity.Location;
+import com.coulee.foundations.configserver.entity.PointInfo;
 import com.coulee.foundations.configserver.entity.WxLocation;
 
 public class ReadTxt {
@@ -27,6 +28,7 @@ public class ReadTxt {
 	private static final String INIT_FLY_DATA_LON_NAME = "initlonData.txt";
 
 	private static final String WX_DATA_FILE_NAME = "wxlocation.txt";
+	private static final String POINT_INFO_TXT = "pointInfo.txt";
 
 	private static final String MATLAB_DIR_FILE = "matlab_dir.txt";
 
@@ -206,8 +208,28 @@ public class ReadTxt {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		readPointInfo();
 
+	}
+
+	public static List<PointInfo> readPointInfo() {
+		 List<PointInfo>  results = new ArrayList<PointInfo>();
+		try {
+			FileInputStream wxInputstream = new FileInputStream(
+					readMatLabWorkDirPath() + File.separator + POINT_INFO_TXT);
+			String data = readStream(wxInputstream);
+			data = data.replaceAll("\r\n", "");
+			String[] planeInfos = data.split(";");//飞机的信息
+			for (String string : planeInfos) {
+				String[] planes = string.split(",");
+				PointInfo pointinfo = new PointInfo(planes[0],planes[1],planes[2],planes[3]);
+				results.add(pointinfo);
+			}
+			return results;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return results;
 	}
 
 }

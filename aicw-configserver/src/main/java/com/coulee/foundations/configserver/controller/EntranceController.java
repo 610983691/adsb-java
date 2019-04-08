@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.coulee.foundations.configserver.entity.Location;
+import com.coulee.foundations.configserver.entity.PointInfo;
 import com.coulee.foundations.configserver.entity.WxLocation;
 
 /**
@@ -108,6 +109,13 @@ public class EntranceController {
 		return JSONObject.toJSONString(result);
 	}
 	
+
+	@RequestMapping("/loadPointInfo")
+	@ResponseBody
+	public String loadPointInfo() {
+		List<PointInfo> result = ReadTxt.readPointInfo();
+		return JSONObject.toJSONString(result);
+	}
 	
 	
 	private static final int times=100;
