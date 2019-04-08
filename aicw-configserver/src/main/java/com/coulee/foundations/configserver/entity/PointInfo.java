@@ -13,6 +13,12 @@ public class PointInfo extends BaseEntity {
     private String icao;
     
     private String id;
+    
+    private String nbspeed;//南北速度
+    
+    private String dxspeed;//东西速度
+    
+    private String hspeed;//垂直速度
 
     public PointInfo(){
     	
@@ -25,11 +31,14 @@ public class PointInfo extends BaseEntity {
      * @param icao
      * @param id
      */
-    public PointInfo(String lon,String lat,String icao,String id){
+    public PointInfo(String lon,String lat,String icao,String id,String nbspeed,String dxspeed,String hspeed){
     	this.lat=lat;
     	this.lng=lon;
-    	this.id=id;
     	this.icao=icao;
+    	this.id=id;
+    	this.nbspeed=nbspeed;
+    	this.dxspeed=dxspeed;
+    	this.hspeed=hspeed;
     }
     
 
@@ -91,6 +100,30 @@ public class PointInfo extends BaseEntity {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getNbspeed() {
+		return nbspeed;
+	}
+
+	public void setNbspeed(String nbspeed) {
+		this.nbspeed = nbspeed;
+	}
+
+	public String getDxspeed() {
+		return dxspeed;
+	}
+
+	public void setDxspeed(String dxspeed) {
+		this.dxspeed = dxspeed;
+	}
+
+	public String getHspeed() {
+		return hspeed;
+	}
+
+	public void setHspeed(String hspeed) {
+		this.hspeed = hspeed;
 	}
 
 }

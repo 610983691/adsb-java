@@ -173,6 +173,9 @@ body {
 					var point =new BMap.Point(datas[i].lng,datas[i].lat);
 					point.icao=datas[i].icao;
 					point.id=datas[i].id;
+					point.nb=datas[i].nbspeed;
+					point.dx=datas[i].dxspeed;
+					point.h=datas[i].hspeed;
 					markPoints.push(point);
 				}
 				var options = {
@@ -184,10 +187,11 @@ body {
 				map.addOverlay(pointCollection); // 添加五角星
 				pointCollection.addEventListener('click', function(e) {
 					var content = '<p>经度：' + e.point.lng + '<br>纬度：'
-							+ e.point.lat+'<br>ICAO：'+e.point.icao+'<br>ID：'+e.point.id+'</p>'; // 监听点击事件
+							+ e.point.lat+'<br>ICAO：'+e.point.icao+'<br>ID：'+e.point.id
+							+'<br>南北速度：'+e.point.nb+'(knots)<br>东西速度：'+e.point.dx+'(knots)<br>垂直速度：'+e.point.h+'(feet/min)</p>'; // 监听点击事件
 					var opts = {
-							  width : 200,     // 信息窗口宽度
-							  height: 100,     // 信息窗口高度
+							  width : 300,     // 信息窗口宽度
+							  height: 200,     // 信息窗口高度
 							  title : "飞机信息" , // 信息窗口标题
 							  enableMessage:true,//设置允许信息窗发送短息
 							  message:""
