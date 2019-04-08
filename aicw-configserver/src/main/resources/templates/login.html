@@ -54,13 +54,12 @@
 	
 	 var map = new BMap.Map("allmap");     // 创建Map实例  
 	 map.enableScrollWheelZoom();                        //启用滚轮放大缩小
-		//添加地图类型控件
-		map.addControl(new BMap.MapTypeControl({
-			mapTypes:[
-	            BMAP_NORMAL_MAP,
-	            BMAP_HYBRID_MAP
-	    ]}));
-	wxdata();
+	//添加地图类型控件
+	map.addControl(new BMap.MapTypeControl({
+		mapTypes:[
+            BMAP_NORMAL_MAP,
+            BMAP_HYBRID_MAP
+    ]}));
 	loadLocations();
 	function loadLocations(){
 		$.ajax({
@@ -69,7 +68,8 @@
 			  contentType:'application/json',
 			  success: function(res){
 				  var datas = JSON.parse(res);
-					// 百度地图API功能
+				  // 百度地图API功能
+				  map.centerAndZoom(new BMap.Point(datas[0][0].lng, datas[0][0].lat), 6);     // 初始化地图,设置中心点坐标和地图级别
 				  var lineCount = datas.length;
 				  var markPoints=[];
 				  for(var i =0;i<lineCount;i++){
@@ -78,7 +78,7 @@
 					  for(var j =0;j<dataarr.length;j++){
 						  points.push(new BMap.Point(dataarr[j].lng,dataarr[j].lat));
 					  }
-					  var polyline = new BMap.Polyline(points, {strokeColor:"blue", strokeWeight:3, strokeOpacity:0.5});  //定义折线
+					  var polyline = new BMap.Polyline(points, {strokeColor:"green", strokeWeight:3, strokeOpacity:0.5});  //定义折线
 					  map.addOverlay(polyline);     //添加折线到地图上
 					  markPoints.push(new BMap.Point(dataarr[0].lng, dataarr[0].lat));
 				  }

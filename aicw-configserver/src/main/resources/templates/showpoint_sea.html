@@ -56,14 +56,13 @@
 	
 	 var map = new BMap.Map("allmap");     // 创建Map实例  
 	 map.enableScrollWheelZoom();                        //启用滚轮放大缩小
-		//添加地图类型控件
-		map.addControl(new BMap.MapTypeControl({
-			mapTypes:[
-	            BMAP_NORMAL_MAP,
-	            BMAP_HYBRID_MAP
-	    ]}));
+	//添加地图类型控件
+	map.addControl(new BMap.MapTypeControl({
+		mapTypes:[
+            BMAP_NORMAL_MAP,
+            BMAP_HYBRID_MAP
+    ]}));
 	loadseamap();
-	wxdata();
 	/**加载热力图 */
 	function loadseamap(){
 		$.ajax({
