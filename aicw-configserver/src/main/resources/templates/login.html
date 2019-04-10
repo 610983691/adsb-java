@@ -176,6 +176,8 @@ body {
 					point.nb=datas[i].nbspeed;
 					point.dx=datas[i].dxspeed;
 					point.h=datas[i].hspeed;
+					point.showlon=datas[i].showlon;
+					point.showlat=datas[i].showlat;
 					markPoints.push(point);
 				}
 				var options = {
@@ -186,8 +188,8 @@ body {
 				var pointCollection = new BMap.PointCollection(markPoints,options); // 添加五角星作为起始点
 				map.addOverlay(pointCollection); // 添加五角星
 				pointCollection.addEventListener('click', function(e) {
-					var content = '<p>经度：' + e.point.lng + '<br>纬度：'
-							+ e.point.lat+'<br>ICAO：'+e.point.icao+'<br>ID：'+e.point.id
+					var content = '<p>经度：' + e.point.showlon + '<br>纬度：'
+							+ e.point.showlat+'<br>ICAO：'+e.point.icao+'<br>ID：'+e.point.id
 							+'<br>南北速度：'+e.point.nb+'(knots)<br>东西速度：'+e.point.dx+'(knots)<br>垂直速度：'+e.point.h+'(feet/min)</p>'; // 监听点击事件
 					var opts = {
 							  width : 300,     // 信息窗口宽度

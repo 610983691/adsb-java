@@ -222,10 +222,10 @@ public class ReadTxt {
 			String[] planeInfos = data.split(";");//飞机的信息
 			for (String string : planeInfos) {
 				String[] planes = string.split(",");
-				if(planes.length<7) {
+				if(planes.length<9) {
 					continue;
 				}
-				PointInfo pointinfo = new PointInfo(planes[0],planes[1],planes[2],planes[3],planes[4],planes[5],planes[6]);
+				PointInfo pointinfo = new PointInfo(planes[0],planes[1],planes[2],planes[3],planes[4],planes[5],planes[6],planes[7],planes[8]);
 				results.add(pointinfo);
 			}
 			return results;
